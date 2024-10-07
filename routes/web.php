@@ -28,12 +28,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/admin/admin', [AdminController::class, 'storeAdmin']);
     Route::get('/admin/admin/{admin}/edit', [AdminController::class, 'editAdmin'])->name('admin.editAdmin');
     Route::put('/admin/admin/{admin}', [AdminController::class, 'updateAdmin']);
+
+    //Dosen
     Route::get('/admin/dosen/create', [AdminController::class, 'createDosen']);
     Route::post('/admin/dosen', [AdminController::class, 'storeDosen']);
     Route::get('/admin/dosen/{dosen}/edit', [AdminController::class, 'editDosen']);
     Route::put('/admin/dosen/{dosen}', [AdminController::class, 'updateDosen']);
     Route::delete('/admin/dosen/{dosen}', [AdminController::class, 'destroyDosen']);
-    Route::get('/admin/mahasiswa/create', [AdminController::class, 'createMahasiswa']);
+
+    //Mahasiswa
+    Route::get('/admin/mahasiswa/create',
+    [AdminController::class, 'createMahasiswa']);
     Route::post('/admin/mahasiswa', [AdminController::class, 'storeMahasiswa'])->name('admin.mahasiswa.store');
     Route::get('/admin/mahasiswa/{mahasiswa}/edit', [AdminController::class, 'editMahasiswa']);
     Route::put('/admin/mahasiswa/{mahasiswa}', [AdminController::class, 'updateMahasiswa']);
