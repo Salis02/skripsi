@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', //penambahan role
     ];
 
     /**
@@ -42,4 +43,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    //pengkondisian jika yang login admin
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    //Penambahan relasi antara user dengan dosen/mahasiswa
+    public function dosen()
+    {
+        return $this->hasOne(Dosen::class, 'user_id' );
+    }
+
+    public function mahasiswa()
+    {
+        return $this->hasOne(Mahasiswa::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
 }
