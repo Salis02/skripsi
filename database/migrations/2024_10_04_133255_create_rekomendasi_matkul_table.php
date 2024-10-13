@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->foreignId('matkul_id')->constrained('matkul')->onDelete('restrict');
+            // $table->foreign('semester_id')->references('id')->on('semesters')->onDelete('restrict');
             $table->timestamps();
         });
     }
