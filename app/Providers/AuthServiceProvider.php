@@ -1,26 +1,29 @@
 <?php
 
+// app/Providers/AuthServiceProvider.php
+
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\transkrip;
+use App\Policies\TranskripPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
     /**
-     * The model to policy mappings for the application.
+     * The policy mappings for the application.
      *
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        //
+        transkrip::class => TranskripPolicy::class, // Daftarkan policy di sini
     ];
 
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        $this->registerPolicies();
     }
 }
