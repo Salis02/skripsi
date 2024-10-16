@@ -26,6 +26,14 @@
                     </select>
                 </div>
 
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="semesterId">Semester:</label>
+                    <select name="semesterId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        @foreach($semesters as $semester)
+                            <option value="{{ $semester->id }}" {{ $semester->id == $mahasiswa->semester_id ? 'selected' : '' }}>{{ $semester->id }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
                 <div class="mb-4">
                     <label for="mahasiswa_id" class="block text-sm">Mahasiswa:</label>
@@ -78,6 +86,25 @@
                     bobotInput.addEventListener('input', calculateNilaiAkhir);
                 });
 
+                document.getElementById('mahasiswa_id').addEventListener('change', function() {
+                    const mahasiswaId = this.value;
+                    const semesterId = this.options[this.selectedIndex].dataset.semesterId; // Ambil semester_id dari opsi yang dipilih
+
+                    // Lakukan fetch untuk mendapatkan mata kuliah berdasarkan semester
+                    fetch(`/admin/matkul/${semesterId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const matkulSelect = document.getElementById('matkul_id');
+                            matkulSelect.innerHTML = ''; // Kosongkan pilihan saat ini
+
+                            data.forEach(matkul => {
+                                const option = document.createElement('option');
+                                option.value = matkul.id;
+                                option.textContent = matkul.namaMatkul;
+                                matkulSelect.appendChild(option);
+                            });
+                        });
+                });                
 
             </script>
         </div>

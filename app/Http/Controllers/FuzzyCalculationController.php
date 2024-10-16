@@ -61,23 +61,23 @@ class FuzzyCalculationController extends Controller
         return number_format($indeksPrestasi, 2, '.','');
     }
 
-    public function fuzzifyVariable($input, $variable)
+    public function fuzzifyVariable($input, $variabel)
     {
 
-        // dd($input, $variable);
+        // dd($input, $variabel);
         // Ambil rentang dari tabel fuzzyRange berdasarkan variabel
-        $ranges = FuzzyRange::where('variable', $variable)->get();
+        $ranges = FuzzyRange::where('variabel', $variabel)->get();
 
         // Validasi input (misalnya, IPK tidak mungkin lebih dari 4.0)
-        if ($variable == 'IPK' && ($input < 0 || $input > 4)) {
+        if ($variabel == 'IPK' && ($input < 0 || $input > 4)) {
             dd('Input IPK tidak valid: ' . $input);
         }
 
         // Ambil rentang dari tabel fuzzyRange berdasarkan variabel
-        $ranges = FuzzyRange::where('variable', $variable)->get();
+        $ranges = FuzzyRange::where('variabel', $variabel)->get();
 
         if ($ranges->isEmpty()) {
-            dd('No ranges found for variable: ' . $variable);
+            dd('No ranges found for variabel: ' . $variabel);
         }
 
 
@@ -85,9 +85,9 @@ class FuzzyCalculationController extends Controller
         $membership = [];
 
         // Kondisi khusus untuk matkul mengulang
-    if ($variable === 'matkul_mengulang') {
+    if ($variabel === 'matkul_mengulang') {
         // Debugging untuk memeriksa apakah kondisi ini terpenuhi
-        // dd('Proses matkul mengulang dimulai', $input, $variable);
+        // dd('Proses matkul mengulang dimulai', $input, $variabel);
 
         // Jika matkul mengulang adalah 0, dianggap sebagai "Sedikit"
         if ($input == 0) {
@@ -133,6 +133,8 @@ class FuzzyCalculationController extends Controller
     public function calculateFuzzification(Request $request)
     {
         $mahasiswa = Auth::user()->mahasiswa;
+
+        // dd($request);
 
         $semester_id = $request->semester;
         $ipk = $request->ipk_sebelumnya;  // Nilai IPK sebelumnya
@@ -181,12 +183,12 @@ class FuzzyCalculationController extends Controller
     {
         // Menyimpan aturan inferensi dalam array
         $rules = [
-            ['ipk' => 'Tinggi', 'matkul' => 'Sedikit', 'sks' => 'Banyak'],
-            ['ipk' => 'Tinggi', 'matkul' => 'Banyak', 'sks' => 'Banyak'],
-            ['ipk' => 'Sedang', 'matkul' => 'Sedikit', 'sks' => 'Agak Banyak'],
-            ['ipk' => 'Sedang', 'matkul' => 'Banyak', 'sks' => 'Agak Banyak'],
-            ['ipk' => 'Rendah', 'matkul' => 'Sedikit', 'sks' => 'Agak Sedikit'],
-            ['ipk' => 'Rendah', 'matkul' => 'Banyak', 'sks' => 'Sedikit'],
+            ['ipk' => 'tinggi', 'matkul' => 'sedikit', 'sks' => 'Banyak'],
+            ['ipk' => 'tinggi', 'matkul' => 'banyak', 'sks' => 'Banyak'],
+            ['ipk' => 'sedang', 'matkul' => 'sedikit', 'sks' => 'Agak Banyak'],
+            ['ipk' => 'sedang', 'matkul' => 'banyak', 'sks' => 'Agak Banyak'],
+            ['ipk' => 'rendah', 'matkul' => 'sedikit', 'sks' => 'Agak Sedikit'],
+            ['ipk' => 'rendah', 'matkul' => 'banyak', 'sks' => 'Sedikit'],
         ];
 
         $inference_results = [];

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -15,8 +16,9 @@ class AdminController extends Controller
     {
         $dosens = Dosen::all();
         $mahasiswas = Mahasiswa::all();
+        $semesters = Semester::all();
         $admins = User::where('role', 'admin')->get();
-        return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins'));
+        return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins', 'semesters'));
     }
 
     public function createAdmin()
@@ -105,52 +107,58 @@ class AdminController extends Controller
     public function createMahasiswa()
     {
         $dosens = Dosen::all();
-        return view('admin.create_mahasiswa', compact('dosens'));
+        $semesters = Semester::all();
+        return view('admin.create_mahasiswa', compact('dosens', 'semesters'));
     }
 
     public function storeMahasiswa(Request $request)
-{
-    $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8',
-        'nim' => 'required|string|max:20|unique:mahasiswas,nim',
-        'date' => 'required|date',
-        'gender' => 'required|string',
-        'dosen_id' => 'required|exists:dosens,id',
-    ]);
+    {
+        // dd($request);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'nim' => 'required|string|max:20|unique:mahasiswas,nim',
+            'date' => 'required|date',
+            'gender' => 'required|string',
+            'dosen_id' => 'required|exists:dosens,id',
+            'semester_id' => 'required|exists:semester,id', 
+        ]);
 
-    $user = User::create([
-        'name' => $validated['name'],
-        'email' => $validated['email'],
-        'password' => bcrypt($validated['password']),
-        'role' => 'mahasiswa',
-    ]);
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'role' => 'mahasiswa',
+        ]);
 
-    // Debugging
-    Log::info('User created successfully:', ['user_id' => $user->id]);
-    Log::info('Validated data:', $validated);
+        // Debugging
+        Log::info('User created successfully:', ['user_id' => $user->id]);
+        Log::info('Validated data:', $validated);
 
-    $mahasiswa = Mahasiswa::create([
-        'name' => $validated['name'],
-        'nim' => $validated['nim'],
-        'tanggal_lahir' => $validated['date'],
-        'jenis_kelamin' => $validated['gender'],
-        'user_id' => $user->id,
-        'dosen_id' => $validated['dosen_id'],
-    ]);
+        $mahasiswa = Mahasiswa::create([
+            'name' => $validated['name'],
+            'nim' => $validated['nim'],
+            'tanggal_lahir' => $validated['date'],
+            'jenis_kelamin' => $validated['gender'],
+            'user_id' => $user->id,
+            'dosen_id' => $validated['dosen_id'],
+            'semester_id' => $validated['semester_id'], 
+        ]);
 
-    // Debugging
-    Log::info('Mahasiswa created successfully:', ['mahasiswa_id' => $mahasiswa->id]);
 
-    return redirect()->route('admin.dashboard')->with('success', 'Mahasiswa berhasil dibuat.');
-}
+        // Debugging
+        Log::info('Mahasiswa created successfully:', ['mahasiswa_id' => $mahasiswa->id]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Mahasiswa berhasil dibuat.');
+    }
 
 
     public function editMahasiswa(Mahasiswa $mahasiswa)
     {
         $dosens = Dosen::all();
-        return view('admin.edit_mahasiswa', compact('mahasiswa', 'dosens'));
+        $semesters = Semester::all();
+        return view('admin.edit_mahasiswa', compact('mahasiswa', 'dosens', 'semesters'));
     }
 
     public function updateMahasiswa(Request $request, Mahasiswa $mahasiswa)
@@ -165,6 +173,7 @@ class AdminController extends Controller
             'name' => $request->name,
             'nim' => $request->nim,
             'dosen_id' => $request->dosen_id,
+            'semesterId' => $request->semesterId,
         ]);
 
         return redirect()->route('admin.dashboard');

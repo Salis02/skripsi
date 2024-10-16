@@ -8,7 +8,7 @@
         @csrf
         <div class="form-group">
             <label for="variabel">Variabel</label>
-            <input type="text" name="variabel" id="variabel" class="form-control" required>
+            <input type="text" name="variabel" id="variabel" class="form-control" required autofocus>
         </div>
         <div class="form-group">
             <label for="category">Kategori</label>

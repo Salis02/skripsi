@@ -21,6 +21,7 @@ class Mahasiswa extends Model
         'jenis_kelamin',
         'user_id',
         'dosen_id',
+        'semester_id'
     ];
 
 
@@ -38,6 +39,11 @@ class Mahasiswa extends Model
     public function transkrip()
     {
         return $this->hasOne(Transkrip::class, 'mahasiswa_id');
+    }
+
+    public function semester()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
     }
 
 }

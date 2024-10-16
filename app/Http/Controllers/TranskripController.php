@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Matkul;
 use App\Models\Mahasiswa;
 use App\Models\Transkrip;
+use App\Models\Semester;
 use Illuminate\Http\Request;
 
 class TranskripController extends Controller
@@ -23,14 +24,30 @@ class TranskripController extends Controller
         return view('admin.transkrip', compact('transkrip', 'sortOrder'));
     }
 
-
-
-    public function create()
+    public function create(Request $request)
     {
-        $matkuls = Matkul::all();
         $mahasiswas = Mahasiswa::all();
-        return view('admin.create_transkrip', compact('matkuls', 'mahasiswas'));
+        $semesters = Semester::all();
+
+        // Cek apakah mahasiswa_id diterima
+        if ($request->has('mahasiswa_id')) {
+            $mahasiswa = Mahasiswa::find($request->mahasiswa_id);
+
+            if ($mahasiswa) {
+                // Ambil mata kuliah yang sesuai dengan semester mahasiswa
+                $matkuls = Matkul::where('semester_id', $mahasiswa->semester_id)->get();
+            } else {
+                // Jika mahasiswa tidak ditemukan, berikan response atau redirect
+                return redirect()->back()->withErrors(['Mahasiswa tidak ditemukan.']);
+            }
+        } else {
+            $mahasiswa = null;
+            $matkuls = collect(); // Kosongkan collection jika tidak ada mahasiswa
+        }
+
+        return view('admin.create_transkrip', compact('mahasiswas', 'matkuls', 'semesters', 'mahasiswa'));
     }
+
 
     public function store(Request $request)
     {

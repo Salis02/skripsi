@@ -4,7 +4,13 @@
     <main class="h-full pb-16 overflow-y-auto">
         <div class="container mx-auto mt-4">
             <h2 class="text-2xl font-bold">Daftar Transkrip</h2>
-            <a href="{{ route('transkrip.create') }}" class="bg-blue-500 text-white p-2 rounded">Tambah Transkrip</a>
+            <div class="flex justify-start">
+                <a href="{{ route('transkrip.create') }}" class="inline-block">
+                    <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        Tambah Transkrip
+                    </button>
+                </a>
+            </div>
 
             @if(session('success'))
                 <div class="bg-green-500 text-white p-2 rounded">
@@ -12,7 +18,7 @@
                 </div>
             @endif
 
-            <input type="text" id="search-input" placeholder="Cari Mahasiswa" class="border mt-4 p-2 mb-4 w-full">
+            <input type="text" id="search-input" placeholder="Cari Mahasiswa" class="shadow appearance-none border rounded w-full mt-4 mb-4 mx-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
 
             <table class="w-full whitespace-no-wrap">
                 <thead>
@@ -80,7 +86,7 @@
                                         </svg>
                                       </button>
                                     </a>
-                                    <form action="{{ route('transkrip.destroy', $item->id) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('transkrip.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?');">
                                         @csrf
                                         @method('DELETE')
                                         <a class="btn btn-outline-danger" type="submit">

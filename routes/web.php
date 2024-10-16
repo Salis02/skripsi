@@ -49,6 +49,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     //Kelola Matkul
     Route::resource('/admin/matkul', MatkulController::class);
+    Route::get('/admin/matkul/{semesterId}', function($semesterId) {
+        return Matkul::where('semester_id', $semesterId)->get();
+    });
+    
+    
+    
+
 
     //Kelola Transkrip Nilai
     Route::resource('/admin/transkrip', TranskripController::class);

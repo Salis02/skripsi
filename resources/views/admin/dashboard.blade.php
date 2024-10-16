@@ -26,7 +26,7 @@
                             <th class="px-4 py-3" scope="col">No.</th>
                             <th class="px-4 py-3" scope="col">Nama</th>
                             <th class="px-4 py-3" scope="col">Username/Email</th>
-                            <th class="px-4 py-3" scope="col">Action</th>
+                            {{-- <th class="px-4 py-3" scope="col">Action</th> --}}
                         </tr>
                     </thead>
                     <tbody
@@ -40,7 +40,7 @@
                                 <td class="px-4 py-3">{{ $i++ }}</td>
                                 <td class="px-4 py-3">{{ $admin->name }}</td>
                                 <td class="px-4 py-3">{{ $admin->email }}</td>
-                                <td class="px-4 py-3">
+                                {{-- <td class="px-4 py-3">
                                     <div class="flex items-center space-x-4 text-sm">
                                         <a class="btn btn-outline-warning" href="{{ route('admin.editAdmin', $admin) }}">
                                             <button
@@ -60,7 +60,7 @@
                                             </button>
                                         </a>
                                       </div>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                         </tbody>
@@ -153,6 +153,7 @@
                         <th class="px-4 py-3" scope="col">Nama</th>
                         <th class="px-4 py-3" scope="col">NIM</th>
                         <th class="px-4 py-3" scope="col">Email</th>
+                        <th class="px-4 py-3" scope="col">Semester</th>
                         <th class="px-4 py-3" scope="col">Tanggal Lahir</th>
                         <th class="px-4 py-3" scope="col">Jenis Kelamin</th>
                         <th class="px-4 py-3" scope="col">Dosen Pembimbing</th>
@@ -169,6 +170,7 @@
                             <td class="px-4 py-3"> {{ $mahasiswa->name }}</td>
                             <td class="px-4 py-3">{{ $mahasiswa->nim }}</td>
                             <td class="px-4 py-3"> {{ $mahasiswa->user->email }}</td>
+                            <td class="px-4 py-3"> {{ $mahasiswa->semester->semester }}</td>
                             <td class="px-4 py-3"> {{ \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y') }}</td>
                             <td class="px-4 py-3">  {{ $mahasiswa->jenis_kelamin }}</td>
                             <td class="px-4 py-3">  {{ $mahasiswa->dosen->name }}</td>
@@ -209,4 +211,7 @@
                 </tbody>
             </table>
         </div>
+        
+        
+    
 @endsection

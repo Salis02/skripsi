@@ -29,7 +29,7 @@
             @foreach ($fuzzyRanges as $fuzzyRange)
             <tr>
                 <td class="border px-4 py-2">{{ $fuzzyRange->id }}</td>
-                <td class="border px-4 py-2">{{ $fuzzyRange->variable }}</td>
+                <td class="border px-4 py-2">{{ $fuzzyRange->variabel }}</td>
                 <td class="border px-4 py-2">{{ $fuzzyRange->category }}</td>
                 <td class="border px-4 py-2">{{ $fuzzyRange->min_value }}</td>
                 <td class="border px-4 py-2">{{ $fuzzyRange->max_value }}</td>
