@@ -63,72 +63,60 @@ class FuzzyCalculationController extends Controller
 
     public function fuzzifyVariable($input, $variabel)
     {
-
         // dd($input, $variabel);
         // Ambil rentang dari tabel fuzzyRange berdasarkan variabel
         $ranges = FuzzyRange::where('variabel', $variabel)->get();
 
-        // Validasi input (misalnya, IPK tidak mungkin lebih dari 4.0)
-        if ($variabel == 'IPK' && ($input < 0 || $input > 4)) {
-            dd('Input IPK tidak valid: ' . $input);
-        }
-
-        // Ambil rentang dari tabel fuzzyRange berdasarkan variabel
-        $ranges = FuzzyRange::where('variabel', $variabel)->get();
-
-        if ($ranges->isEmpty()) {
-            dd('No ranges found for variabel: ' . $variabel);
-        }
-
-
+        // dd($ranges);
         // Inisialisasi array untuk menyimpan nilai keanggotaan fuzzy
         $membership = [];
 
-        // Kondisi khusus untuk matkul mengulang
-    if ($variabel === 'matkul_mengulang') {
-        // Debugging untuk memeriksa apakah kondisi ini terpenuhi
-        // dd('Proses matkul mengulang dimulai', $input, $variabel);
-
-        // Jika matkul mengulang adalah 0, dianggap sebagai "Sedikit"
-        if ($input == 0) {
-            foreach ($ranges as $range) {
-                if ($range->category === 'Sedikit') {
-                    $membership[$range->category] = 1;
-                } else {
-                    $membership[$range->category] = 0;
-                }
-            }
-            return $membership;
-        }
-
-        // Jika matkul mengulang > 0, lakukan fuzzifikasi normal
-        foreach ($ranges as $range) {
-            if ($input <= $range->min_value) {
-                $membership[$range->category] = 0;
-            } elseif ($input >= $range->max_value) {
-                $membership[$range->category] = 1;
+        // Fuzzifikasi untuk IPK
+        if ($variabel === 'ipk_sebelumnya') {
+            if ($input <= 2.00) {
+                // Jika IPK di bawah atau sama dengan 2.00, maka masuk ke kategori rendah penuh
+                $membership['rendah'] = 1;
+                $membership['sedang'] = 0;
+                $membership['tinggi'] = 0;
+            } elseif ($input > 2.00 && $input < 3.00) {
+                // Jika IPK di antara 2.00 dan 3.00, interpolasi antara rendah dan sedang
+                $membership['rendah'] = (3.00 - $input) / (3.00 - 2.00);
+                $membership['sedang'] = ($input - 2.00) / (3.00 - 2.00);
+                $membership['tinggi'] = 0;
+            } elseif ($input >= 3.00 && $input < 4.00) {
+                // Jika IPK di antara 3.00 dan 4.00, interpolasi antara sedang dan tinggi
+                $membership['rendah'] = 0;
+                $membership['sedang'] = (4.00 - $input) / (4.00 - 3.00);
+                $membership['tinggi'] = ($input - 3.00) / (4.00 - 3.00);
             } else {
-                // Menggunakan interpolasi linier
-                $membership[$range->category] = ($input - $range->min_value) / ($range->max_value - $range->min_value);
+                // Jika IPK >= 4.00, maka masuk ke kategori tinggi penuh
+                $membership['rendah'] = 0;
+                $membership['sedang'] = 0;
+                $membership['tinggi'] = 1;
             }
         }
 
-        return $membership;
-    }
-        // Fuzzifikasi normal
-        foreach ($ranges as $range) {
-            if ($input <= $range->min_value) {
-                $membership[$range->category] = 0; // Di luar rentang bawah
-            } elseif ($input >= $range->max_value) {
-                $membership[$range->category] = 1; // Di luar rentang atas
+        // Fuzzifikasi untuk Matkul Mengulang
+        if ($variabel === 'matkul_mengulang') {
+            if ($input <= 1) {
+                // Jika matkul mengulang <= 1, maka masuk ke kategori sedikit penuh
+                $membership['sedikit'] = 1;
+                $membership['banyak'] = 0;
+            } elseif ($input > 1 && $input <= 3) {
+                // Jika matkul mengulang antara 1 dan 3, interpolasi antara sedikit dan banyak
+                $membership['sedikit'] = (3 - $input) / (3 - 1);
+                $membership['banyak'] = ($input - 1) / (3 - 1);
             } else {
-                // Menggunakan interpolasi linier untuk menentukan nilai keanggotaan fuzzy
-                $membership[$range->category] = ($input - $range->min_value) / ($range->max_value - $range->min_value);
+                // Jika matkul mengulang >= 3, maka masuk ke kategori banyak penuh
+                $membership['sedikit'] = 0;
+                $membership['banyak'] = 1;
             }
         }
 
-    return $membership; // Kembalikan hasil keanggotaan untuk setiap kategori
+        // dd($membership);
+        return $membership; // Kembalikan hasil keanggotaan untuk setiap kategori
     }
+
 
     public function calculateFuzzification(Request $request)
     {
@@ -148,6 +136,7 @@ class FuzzyCalculationController extends Controller
         $fuzzy_ipk = $this->fuzzifyVariable($ipk, 'ipk_sebelumnya');
         $fuzzy_matkul = $this->fuzzifyVariable($matkul_mengulang, 'matkul_mengulang');
 
+        // dd($fuzzy_ipk, $fuzzy_matkul);
 
         // Step 3: Lakukan inferensi berdasarkan hasil fuzzifikasi
         $inference_results = $this->inference($fuzzy_ipk, $fuzzy_matkul);
@@ -165,7 +154,7 @@ class FuzzyCalculationController extends Controller
         ]);
 
         // Memanggil method baru untuk mengambil rekomendasi mata kuliah
-        $rekomendasi_matkul = $this->getRekomendasiMatkul($semester_target, $peminatan);
+        // $rekomendasi_matkul = $this->getRekomendasiMatkul($semester_target, $peminatan);
 
         // Step 6: Kembalikan hasil perhitungan fuzzy ke view
         return view('mahasiswa.menu', [
@@ -175,32 +164,27 @@ class FuzzyCalculationController extends Controller
             'semesters' => Semester::all(),  // Data semester untuk form
             'indeksPrestasi' => $this->getIndeksPrestasi(),  // IPK yang dihitung
             'recommended_sks' => $recommended_sks,  // Hasil SKS dari fuzzy
-            'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
+            // 'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
         ]);
     }
 
     public function inference($fuzzy_ipk, $fuzzy_matkul)
     {
-        // Menyimpan aturan inferensi dalam array
-        $rules = [
-            ['ipk' => 'tinggi', 'matkul' => 'sedikit', 'sks' => 'Banyak'],
-            ['ipk' => 'tinggi', 'matkul' => 'banyak', 'sks' => 'Banyak'],
-            ['ipk' => 'sedang', 'matkul' => 'sedikit', 'sks' => 'Agak Banyak'],
-            ['ipk' => 'sedang', 'matkul' => 'banyak', 'sks' => 'Agak Banyak'],
-            ['ipk' => 'rendah', 'matkul' => 'sedikit', 'sks' => 'Agak Sedikit'],
-            ['ipk' => 'rendah', 'matkul' => 'banyak', 'sks' => 'Sedikit'],
-        ];
+        // Ambil aturan inferensi dari tabel inference_rules di database
+        $rules = \DB::table('inference_rules')->get();
 
         $inference_results = [];
 
-        // Evaluasi setiap aturan dan hitung derajat keanggotaan (α)
+        // Loop melalui setiap aturan dan hitung derajat keanggotaan (α)
         foreach ($rules as $rule) {
-            $ipk_value = $fuzzy_ipk[$rule['ipk']];
-            $matkul_value = $fuzzy_matkul[$rule['matkul']];
+            if (isset($fuzzy_ipk[$rule->ipk_category]) && isset($fuzzy_matkul[$rule->matkul_category])) {
+                $ipk_value = $fuzzy_ipk[$rule->ipk_category];
+                $matkul_value = $fuzzy_matkul[$rule->matkul_category];
 
-            // Operasi AND (ambil nilai minimum dari fuzzy IPK dan Matkul)
-            $alpha = min($ipk_value, $matkul_value);
-            $inference_results[] = ['rule' => $rule, 'alpha' => $alpha];
+                // Operasi AND (ambil nilai minimum dari fuzzy IPK dan Matkul)
+                $alpha = min($ipk_value, $matkul_value);
+                $inference_results[] = ['rule' => $rule, 'alpha' => $alpha];
+            }
         }
 
         // Kembalikan hasil inferensi untuk digunakan di tahap defuzzifikasi
@@ -209,74 +193,71 @@ class FuzzyCalculationController extends Controller
 
     public function defuzzification($inference_results)
     {
+        // dd($inference_results);
         $numerator = 0;  // Untuk menyimpan hasil perkalian α * Z
         $denominator = 0;  // Untuk menyimpan total α
 
-        // Mendefinisikan nilai Z untuk setiap kategori SKS
-        $sks_values = [
-            'Sedikit' => [15, 17],
-            'Agak Sedikit' => [17, 20],
-            'Agak Banyak' => [20, 22],
-            'Banyak' => [22, 24],
-        ];
-
-        // Loop melalui setiap hasil inferensi untuk menghitung defuzzifikasi
+         // Loop melalui setiap hasil inferensi
         foreach ($inference_results as $result) {
-            $alpha = $result['alpha'];
-            $sks_category = $result['rule']['sks'];
+            $alpha = $result['alpha'];  // Ambil nilai keanggotaan α
+            $min_sks = $result['rule']->min_sks;  // Ambil nilai minimum SKS dari aturan
+            $max_sks = $result['rule']->max_sks;  // Ambil nilai maksimum SKS dari aturan
 
-            // Ambil nilai tengah dari rentang SKS yang sesuai
-            $z_value = ($sks_values[$sks_category][0] + $sks_values[$sks_category][1]) / 2;
+            // Hanya proses aturan dengan alpha > 0
+            if ($alpha > 0) {
+                $z_value = ($min_sks + $max_sks) / 2;  // Gunakan nilai tengah dari rentang SKS
 
-            // Hitung bagian dari numerik dan denominasi
-            $numerator += $alpha * $z_value;
-            $denominator += $alpha;
-        }
-
-        // Menghitung output tegas (Z total)
-        $z_total = ($denominator != 0) ? $numerator / $denominator : 0;
-
-        return round($z_total + 1.5); // Kembalikan hasil perhitungan SKS
-    }
-
-    public function getRekomendasiMatkul($semester, $peminatan)
-    {
-        // Ambil data dari tabel rekomendasi_matkul berdasarkan semester dan type
-        $rekomendasi = [];
-
-        // Cek untuk semester wajib (tambahan 1)
-        $rekomendasi_wajib = RekomendasiMatkul::where('type', 'wajib')
-            ->join('matkul', 'rekomendasi_matkul.matkul_id', '=', 'matkul.id') // Join dengan tabel matkul
-            ->where('matkul.semesterId', $semester) // Filter berdasarkan semester
-            ->select('rekomendasi_matkul.*') // Ambil semua kolom dari rekomendasi_matkul
-            ->get();
-
-        $rekomendasi = $rekomendasi_wajib;
-
-        // Cek untuk semester pilihan
-        if ($semester >= 4) {
-            // Cek apakah ada nilai C atau dibawahnya di transkrip
-            $mahasiswa = Auth::user()->mahasiswa;
-            $transkrip = $mahasiswa->transkrip()->with('matkul')->get();
-
-            $has_c_grade = $transkrip->contains(function ($item) {
-                return $item->nilai_akhir < 2.0; // Asumsikan C adalah 2.0
-            });
-
-            if ($has_c_grade) {
-                // Ambil mata kuliah pilihan jika ada nilai C
-                $rekomendasi_pilihan = RekomendasiMatkul::where('type', 'pilihan')
-                    ->join('matkul', 'rekomendasi_matkul.matkul_id', '=', 'matkul.id') // Join dengan tabel matkul
-                    ->where('matkul.semester', $semester) // Filter berdasarkan semester
-                    ->select('rekomendasi_matkul.*') // Ambil semua kolom dari rekomendasi_matkul
-                    ->get();
-
-                $rekomendasi = $rekomendasi_wajib->merge($rekomendasi_pilihan);
+                // Hitung numerator dan denominator
+                $numerator += $alpha * $z_value;
+                $denominator += $alpha;
             }
         }
 
-        return $rekomendasi; // Kembalikan data rekomendasi
+        // Hitung output tegas (Z total)
+        $z_total = ($denominator != 0) ? $numerator / $denominator : 0;
+
+        // dd($z_total);
+        return round($z_total * 1.05); // Kembalikan hasil SKS sebagai angka bulat
     }
+
+    // public function getRekomendasiMatkul($semester, $peminatan)
+    // {
+    //     // Ambil data dari tabel rekomendasi_matkul berdasarkan semester dan type
+    //     $rekomendasi = [];
+
+    //     // Cek untuk semester wajib (tambahan 1)
+    //     $rekomendasi_wajib = RekomendasiMatkul::where('type', 'wajib')
+    //         ->join('matkul', 'rekomendasi_matkul.matkul_id', '=', 'matkul.id') // Join dengan tabel matkul
+    //         ->where('matkul.semesterId', $semester) // Filter berdasarkan semester
+    //         ->select('rekomendasi_matkul.*') // Ambil semua kolom dari rekomendasi_matkul
+    //         ->get();
+
+    //     $rekomendasi = $rekomendasi_wajib;
+
+    //     // Cek untuk semester pilihan
+    //     if ($semester >= 4) {
+    //         // Cek apakah ada nilai C atau dibawahnya di transkrip
+    //         $mahasiswa = Auth::user()->mahasiswa;
+    //         $transkrip = $mahasiswa->transkrip()->with('matkul')->get();
+
+    //         $has_c_grade = $transkrip->contains(function ($item) {
+    //             return $item->nilai_akhir < 2.0; // Asumsikan C adalah 2.0
+    //         });
+
+    //         if ($has_c_grade) {
+    //             // Ambil mata kuliah pilihan jika ada nilai C
+    //             $rekomendasi_pilihan = RekomendasiMatkul::where('type', 'pilihan')
+    //                 ->join('matkul', 'rekomendasi_matkul.matkul_id', '=', 'matkul.id') // Join dengan tabel matkul
+    //                 ->where('matkul.semester', $semester) // Filter berdasarkan semester
+    //                 ->select('rekomendasi_matkul.*') // Ambil semua kolom dari rekomendasi_matkul
+    //                 ->get();
+
+    //             $rekomendasi = $rekomendasi_wajib->merge($rekomendasi_pilihan);
+    //         }
+    //     }
+
+    //     return $rekomendasi; // Kembalikan data rekomendasi
+    // }
 
 
 

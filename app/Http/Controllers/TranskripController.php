@@ -21,31 +21,22 @@ class TranskripController extends Controller
                     ->orderBy(Mahasiswa::select('name')->whereColumn('mahasiswas.id', 'transkrip.mahasiswa_id'), $sortOrder)
                     ->get();
 
-        return view('admin.transkrip', compact('transkrip', 'sortOrder'));
+        return view('admin.transkrip', compact('transkrip', 'sortOrder'), [
+            'title' => 'Kelola Transkrip',
+            'active' => 'Transkrip'
+        ]);
     }
 
     public function create(Request $request)
     {
         $mahasiswas = Mahasiswa::all();
         $semesters = Semester::all();
+        $matkuls = Matkul::all();
 
-        // Cek apakah mahasiswa_id diterima
-        if ($request->has('mahasiswa_id')) {
-            $mahasiswa = Mahasiswa::find($request->mahasiswa_id);
-
-            if ($mahasiswa) {
-                // Ambil mata kuliah yang sesuai dengan semester mahasiswa
-                $matkuls = Matkul::where('semester_id', $mahasiswa->semester_id)->get();
-            } else {
-                // Jika mahasiswa tidak ditemukan, berikan response atau redirect
-                return redirect()->back()->withErrors(['Mahasiswa tidak ditemukan.']);
-            }
-        } else {
-            $mahasiswa = null;
-            $matkuls = collect(); // Kosongkan collection jika tidak ada mahasiswa
-        }
-
-        return view('admin.create_transkrip', compact('mahasiswas', 'matkuls', 'semesters', 'mahasiswa'));
+        return view('admin.create_transkrip', compact('mahasiswas', 'matkuls', 'semesters'), [
+            'title' => 'Kelola Transkrip',
+            'active' => 'Transkrip'
+        ]);
     }
 
 
@@ -69,7 +60,10 @@ class TranskripController extends Controller
 
         $matkuls = Matkul::all();
         $mahasiswas = Mahasiswa::all();
-        return view('admin.edit_transkrip', compact('transkrip', 'matkuls', 'mahasiswas'));
+        return view('admin.edit_transkrip', compact('transkrip', 'matkuls', 'mahasiswas'), [
+            'title' => 'Kelola Transkrip',
+            'active' => 'Transkrip'
+        ]);
     }
 
     public function update(Request $request, Transkrip $transkrip)

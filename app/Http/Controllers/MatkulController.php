@@ -40,13 +40,19 @@ class MatkulController extends Controller
 
         $semesters = Semester::all();  // Ambil data semua semester untuk form select
 
-        return view('admin.matkul', compact('matkuls' , 'groupedMatkuls', 'semesters'));
+        return view('admin.matkul', compact('matkuls' , 'groupedMatkuls', 'semesters'), [
+            'title' => 'Kelola Matkul',
+            'active' => 'Matkul'
+        ]);
     }
 
     public function create() {
         $semesters = Semester::all();
         $types = TypeMatkul::all();
-        return view('admin.create_matkul', compact('semesters', 'types'));
+        return view('admin.create_matkul', compact('semesters', 'types'), [
+            'title' => 'Kelola Matkul',
+            'active' => 'Matkul'
+        ]);
     }
 
     public function store(Request $request) {
@@ -73,7 +79,10 @@ class MatkulController extends Controller
     {
         $semesters = Semester::all();
         $types = TypeMatkul::all();
-        return view('admin.edit_matkul', compact('matkul', 'semesters', 'types'));
+        return view('admin.edit_matkul', compact('matkul', 'semesters', 'types'), [
+            'title' => 'Kelola Matkul',
+            'active' => 'Matkul'
+        ]);
     }
 
     public function update(Request $request, Matkul $matkul)

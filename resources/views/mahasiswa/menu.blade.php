@@ -1,10 +1,10 @@
 @extends('mahasiswa.layouts.header')
 
 @section('container')
-<div class="container">
-    <h1>Form Input Fuzzy</h1>
-    <div class="container">
-        <form action="{{ route('calculate.fuzzification') }}" method="POST">
+<h1 class="text-2xl text-center font-bold mb-5">Silahkan isi data berikut</h1>
+<div class="bg-">
+    <div class="container mx-2 my-2 bg-gradient-to-r from-green-400 to-blue-400 bg-opacity-75 rounded-md">
+        <form action="{{ route('calculate.fuzzification') }}" method="POST" class="py-2 px-2">
             @csrf
 
             <div class="grid grid-cols-2 gap-4">
@@ -13,7 +13,9 @@
                     <label for="semester" class="block text-sm font-medium text-gray-700">Semester:</label>
                     <select name="semester" id="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         @foreach ($semesters as $semester)
-                            <option value="{{ $semester->id }}">{{ $semester->semester }}</option>
+                            <option value="{{ $semester->id }}" {{ $semester->id == $mahasiswa->semester_id ? 'selected' : '' }}>
+                                {{ $semester->semester }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -42,19 +44,22 @@
             </div>
         </form>
     </div>
+</div>
 
 
     <!-- Menampilkan hasil fuzzy jika sudah dihitung -->
     @if (isset($recommended_sks))
-        <h2>Hasil Perhitungan Fuzzy</h2>
-        <p>Rekomendasi SKS: <strong>{{ $recommended_sks }}</strong> SKS</p>
+       <div class= "mx-2 my-2 bg-blue-300 rounded-lg px-4 py-2">
+            <h2 class="text-xl text-center font-bold mb-4">Hasil Perhitungan Fuzzy untuk {{ $mahasiswa->name }} adalah sebagai berikut :</h2>
+            <p class="text-lg">Rekomendasi SKS => <strong>{{ $recommended_sks }}</strong> SKS</p>
 
-        <h3>Rekomendasi Mata Kuliah</h3>
-        <ul>
-            @foreach ($rekomendasi_matkul as $matkul)
-                <li>{{ $matkul->nama_matkul }} (Semester: {{ $matkul->semester_id }}, Tipe: {{ $matkul->type }})</li>
-            @endforeach
-        </ul>
+            {{-- <h3>Rekomendasi Mata Kuliah</h3>
+            <ul>
+                @foreach ($rekomendasi_matkul as $matkul)
+                    <li>{{ $matkul->nama_matkul }} (Semester: {{ $matkul->semester_id }}, Tipe: {{ $matkul->type }})</li>
+                @endforeach
+            </ul> --}}
+       </div>
     @endif
 
 

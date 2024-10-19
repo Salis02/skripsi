@@ -18,12 +18,18 @@ class AdminController extends Controller
         $mahasiswas = Mahasiswa::all();
         $semesters = Semester::all();
         $admins = User::where('role', 'admin')->get();
-        return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins', 'semesters'));
+        return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins', 'semesters'), [
+            'title' => 'Kelola User',
+            'active' => 'Dashboard'
+        ]);
     }
 
     public function createAdmin()
     {
-        return view('admin.create_admin');
+        return view('admin.create_admin', [
+            'title' => 'Kelola User',
+            'active' => 'Dashboard'
+        ]);
     }
 
     public function storeAdmin(Request $request)
@@ -57,7 +63,10 @@ class AdminController extends Controller
 
     public function createDosen()
     {
-        return view('admin.create_dosen');
+        return view('admin.create_dosen', [
+            'title' => 'Kelola User',
+            'active' => 'Dashboard'
+        ]);
     }
 
     public function storeDosen(Request $request)
@@ -79,7 +88,10 @@ class AdminController extends Controller
 
     public function editDosen(Dosen $dosen)
     {
-        return view('admin.edit_dosen', compact('dosen'));
+        return view('admin.edit_dosen', compact('dosen'), [
+            'title' => 'Kelola User',
+            'active' => 'Dashboard'
+        ]);
     }
 
     public function updateDosen(Request $request, Dosen $dosen)
@@ -108,7 +120,10 @@ class AdminController extends Controller
     {
         $dosens = Dosen::all();
         $semesters = Semester::all();
-        return view('admin.create_mahasiswa', compact('dosens', 'semesters'));
+        return view('admin.create_mahasiswa', compact('dosens', 'semesters'), [
+            'title' => 'Kelola User',
+            'active' => 'Dashboard'
+        ]);
     }
 
     public function storeMahasiswa(Request $request)
@@ -158,7 +173,10 @@ class AdminController extends Controller
     {
         $dosens = Dosen::all();
         $semesters = Semester::all();
-        return view('admin.edit_mahasiswa', compact('mahasiswa', 'dosens', 'semesters'));
+        return view('admin.edit_mahasiswa', compact('mahasiswa', 'dosens', 'semesters'), [
+            'title' => 'Kelola User',
+            'active' => 'Dashboard'
+        ]);
     }
 
     public function updateMahasiswa(Request $request, Mahasiswa $mahasiswa)

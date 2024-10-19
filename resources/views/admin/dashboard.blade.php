@@ -1,26 +1,25 @@
 @extends('admin.layout.header')
 
 @section('container')
-    <h2
-      class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+    <h1
+      class="my-6 text-2xl text-center font-semibold text-gray-700 dark:text-gray-200"
     >
       Dashboard
-    </h2>
-    <hr>
+    </h1>
     <h2 class="mb-2 text-xl font-semibold text-gray-700 dark:text-gray-200">Data Admin</h2>
     <div class="flex justify-start">
 
         <a href="/admin/admin/create">
             <button
-            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-red-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+            class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
           >
             Tambah Admin
           </button>
         </a>
     </div>
-        <div class="w-full mt-2 overflow-hidden rounded-lg shadow-xs">
+        <div class="w-full mt-2 overflow-hidden rounded-lg shadow-md">
             <div class="w-full overflow-x-auto">
-                <table class="w-full whitespace-no-wrap">
+                <table class="w-full whitespace-no-wrap ">
                     <thead>
                         <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3" scope="col">No.</th>
@@ -72,13 +71,13 @@
         <div class="flex justify-start">
             <a class="btn btn-outline-info mb-2" href="/admin/dosen/create">
                 <button
-                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
               >
                 Tambah Dosen
               </button>
             </a>
         </div>
-        <div class="w-full overflow-x-auto">
+        <div class="w-full overflow-x-auto shadow-md">
             <table class="w-full whitespace-no-wrap">
                 <thead>
                     <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -145,8 +144,8 @@
               </button>
             </a>
         </div>
-        <div class="w-full overflow-x-auto">
-            <table class="w-full whitespace-no-wrap">
+        <div class="w-full overflow-x-auto shadow-md">
+            <table class="w-full whitespace-no-wrap text-xs">
                 <thead>
                     <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3" scope="col">No.</th>

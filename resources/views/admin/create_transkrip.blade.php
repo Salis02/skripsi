@@ -27,15 +27,6 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="semesterId">Semester:</label>
-                    <select name="semesterId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        @foreach($semesters as $semester)
-                            <option value="{{ $semester->id }}" {{ $semester->id == $mahasiswa->semester_id ? 'selected' : '' }}>{{ $semester->id }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="mb-4">
                     <label for="mahasiswa_id" class="block text-sm">Mahasiswa:</label>
                     <select name="mahasiswa_id" id="mahasiswa_id" class="w-full border rounded p-2">
                         @foreach($mahasiswas as $mahasiswa)

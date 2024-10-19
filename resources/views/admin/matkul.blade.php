@@ -2,7 +2,7 @@
 
 @section('container')
 <h2
-      class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200"
+      class="my-6 text-2xl text-center font-semibold text-gray-700 dark:text-gray-200"
     >
       Kelola Matkul
     </h2>
@@ -17,10 +17,10 @@
     </div>
     <form action="{{ route('matkul.index') }}" method="GET" class="mt-4 w-1/2">
         <!-- Input untuk pencarian berdasarkan kode atau nama matkul -->
-        <input type="text" name="search" placeholder="Cari berdasarkan kode atau nama matkul" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ request()->get('search') }}">
+        <input type="text" name="search" placeholder="Cari berdasarkan kode atau nama matkul" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md" value="{{ request()->get('search') }}">
 
         <!-- Dropdown untuk memilih semester -->
-        <select name="semesterId" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-2">
+        <select name="semesterId" class="mt-2 block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md">
             <option value="">-- Pilih Semester --</option>
             @foreach($semesters as $semester)
                 <option value="{{ $semester->id }}" {{ request()->get('semesterId') == $semester->id ? 'selected' : '' }}>
@@ -30,12 +30,12 @@
         </select>
 
         <!-- Tombol submit -->
-        <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg">Cari</button>
+        <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Cari</button>
     </form>
 
 <div class="w-full mt-2 overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto ">
-        <table class="w-full md:table-fixed whitespace-no-wrap">
+        <table class="w-full md:table-fixed whitespace-no-wrap text-sm">
             <thead>
                 <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">No.</th>
