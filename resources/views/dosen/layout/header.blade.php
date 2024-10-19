@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Dashboard Admin</title>
+        <title>Dashboard Admin | {{ $title }}</title>
         <link rel="icon" href="https://almaata.ac.id/wp-content/uploads/2017/05/logo-alma-ata.jpg">
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
@@ -36,7 +36,7 @@
       :class="{ 'overflow-hidden': isSideMenuOpen }">
         <!-- Desktop sidebar -->
         <aside
-        class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0"
+        class="z-20 hidden w-64 overflow-y-auto bg-gray-100 dark:bg-gray-800 md:block flex-shrink-0"
         >
         <div class="py-4 text-gray-500 dark:text-gray-400">
             <a
@@ -49,12 +49,12 @@
                 <li class="relative px-6 py-3">
                     <span
                         class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg
-                        {{ Route::is('admin.dashboard') ? '' : 'hidden' }}"
+                         {{ $active === 'Dashboard' ? '' : 'hidden' }}"
                         aria-hidden="true"
                     ></span>
                     <a
                         class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100
-                        {{ Route::is('admin.dashboard') ? 'font-bold' : '' }}"
+                        {{ $active === 'Dashboard' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
                         href="{{ route("dosen.dashboard") }}"
                     >
                         <svg
@@ -77,14 +77,12 @@
             </ul>
             <ul>
                 <li class="relative px-6 py-3">
-                    @if (Route::is('matkul.index'))
                         <span
-                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'rentanFuzzy' ? '' : 'hidden' }}"
                             aria-hidden="true"
                         ></span>
-                    @endif
                     <a
-                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ $active === 'rentanFuzzy' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
                         href="{{ route('fuzzyRange.index') }}"
                     >
                         <svg
@@ -105,14 +103,12 @@
                     </a>
                 </li>
                 <li class="relative px-6 py-3">
-                    @if (Route::is('transkrip.index'))
                         <span
-                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'rekomendasi' ? '' : 'hidden' }}"
                             aria-hidden="true"
                         ></span>
-                    @endif
                     <a
-                    class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ $active === 'rekomendasi' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
                     href="{{ route('rekomendasi_matkul.index') }}"
                     >
                     <svg
@@ -168,14 +164,12 @@
             </a>
             <ul class="mt-6">
                 <li class="relative px-6 py-3">
-                    @if (Route::is('admin.dashboard'))
                         <span
-                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'Dashboard' ? '' : 'hidden' }}"
                             aria-hidden="true"
                         ></span>
-                    @endif
                     <a
-                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200  {{ $active === 'Dashboard' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
                         href="{{ route("dosen.dashboard") }}"
                     >
                         <svg
@@ -198,14 +192,13 @@
             </ul>
             <ul>
                 <li class="relative px-6 py-3">
-                    @if (Route::is('matkul.index'))
                         <span
-                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'rentanFuzzy' ? '' : 'hidden' }}"
                             aria-hidden="true"
                         ></span>
-                    @endif
                     <a
-                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ $active === 'rentanFuzzy' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
+                        href="{{ route('fuzzyRange.index') }}"
                         href="{{ route('fuzzyRange.index') }}"
                     >
                         <svg
@@ -226,14 +219,12 @@
                     </a>
                 </li>
             <li class="relative px-6 py-3">
-                @if (Route::is('transkrip.index'))
                         <span
-                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
+                            class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'rekomendasi' ? '' : 'hidden' }}"
                             aria-hidden="true"
                         ></span>
-                    @endif
                 <a
-                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ $active === 'rekomendasi' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
                 href="{{ route('rekomendasi_matkul.index') }}"
                 >
                 <svg
@@ -256,7 +247,7 @@
         </div>
         </aside>
         <div class="flex flex-col flex-1 w-full">
-            <header class="z-10 py-4 bg-white shadow-md dark:bg-gray-800">
+            <header class="z-10 py-4 bg-gray-100 shadow-md dark:bg-gray-800">
                 <div
                   class="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300"
                 >

@@ -120,10 +120,20 @@ class FuzzyCalculationController extends Controller
 
     public function calculateFuzzification(Request $request)
     {
+        $request->validate([
+            'ipk_sebelumnya' => 'required|numeric|min:0|max:4', // IPK antara 0.00 - 4.00
+            'matkul_mengulang' => 'required|numeric|min:0',      // Matkul mengulang minimal 0
+            'peminatan' => 'required|string',                    // Validasi untuk peminatan
+        ]);
+        
         $mahasiswa = Auth::user()->mahasiswa;
+
+        // Mengambil IPK sebelumnya dari method data()
+        $indeksPrestasi = $this->getIndeksPrestasi();
 
         // dd($request);
 
+        $mahasiswa_id = $request->mahasiswa;
         $semester_id = $request->semester;
         $ipk = $request->ipk_sebelumnya;  // Nilai IPK sebelumnya
         $matkul_mengulang = $request->matkul_mengulang; // Ambil input dari form
@@ -144,8 +154,9 @@ class FuzzyCalculationController extends Controller
         // Step 4: Lakukan defuzzifikasi untuk mendapatkan hasil SKS tegas
         $recommended_sks = $this->defuzzification($inference_results);
 
-        // Step 5: Simpan hasil ke dalam tabel `inputfuzzy`
+        // Step 5: Simpan hasil ke dalam tabel inputfuzzy
         InputFuzzy::create([
+            'mahasiswa_id' => $mahasiswa->id,
             'semester_id' => $semester_id,
             'ipk_sebelumnya' => $ipk,
             'matkul_mengulang' => $matkul_mengulang,
@@ -162,7 +173,7 @@ class FuzzyCalculationController extends Controller
             'active' => 'menu',
             'mahasiswa' => $mahasiswa,
             'semesters' => Semester::all(),  // Data semester untuk form
-            'indeksPrestasi' => $this->getIndeksPrestasi(),  // IPK yang dihitung
+            'indeksPrestasi' => $indeksPrestasi,
             'recommended_sks' => $recommended_sks,  // Hasil SKS dari fuzzy
             // 'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
         ]);
@@ -220,47 +231,21 @@ class FuzzyCalculationController extends Controller
         return round($z_total * 1.05); // Kembalikan hasil SKS sebagai angka bulat
     }
 
-    // public function getRekomendasiMatkul($semester, $peminatan)
-    // {
-    //     // Ambil data dari tabel rekomendasi_matkul berdasarkan semester dan type
-    //     $rekomendasi = [];
+    //Method Riwayat Rekomendasi
+    public function riwayat()
+    {
+        $mahasiswa = Auth::user()->mahasiswa;
 
-    //     // Cek untuk semester wajib (tambahan 1)
-    //     $rekomendasi_wajib = RekomendasiMatkul::where('type', 'wajib')
-    //         ->join('matkul', 'rekomendasi_matkul.matkul_id', '=', 'matkul.id') // Join dengan tabel matkul
-    //         ->where('matkul.semesterId', $semester) // Filter berdasarkan semester
-    //         ->select('rekomendasi_matkul.*') // Ambil semua kolom dari rekomendasi_matkul
-    //         ->get();
+        // Ambil semua riwayat rekomendasi dari tabel inputFuzzy
+        $riwayatRekomendasi = InputFuzzy::where('mahasiswa_id', $mahasiswa->id)->get();
 
-    //     $rekomendasi = $rekomendasi_wajib;
-
-    //     // Cek untuk semester pilihan
-    //     if ($semester >= 4) {
-    //         // Cek apakah ada nilai C atau dibawahnya di transkrip
-    //         $mahasiswa = Auth::user()->mahasiswa;
-    //         $transkrip = $mahasiswa->transkrip()->with('matkul')->get();
-
-    //         $has_c_grade = $transkrip->contains(function ($item) {
-    //             return $item->nilai_akhir < 2.0; // Asumsikan C adalah 2.0
-    //         });
-
-    //         if ($has_c_grade) {
-    //             // Ambil mata kuliah pilihan jika ada nilai C
-    //             $rekomendasi_pilihan = RekomendasiMatkul::where('type', 'pilihan')
-    //                 ->join('matkul', 'rekomendasi_matkul.matkul_id', '=', 'matkul.id') // Join dengan tabel matkul
-    //                 ->where('matkul.semester', $semester) // Filter berdasarkan semester
-    //                 ->select('rekomendasi_matkul.*') // Ambil semua kolom dari rekomendasi_matkul
-    //                 ->get();
-
-    //             $rekomendasi = $rekomendasi_wajib->merge($rekomendasi_pilihan);
-    //         }
-    //     }
-
-    //     return $rekomendasi; // Kembalikan data rekomendasi
-    // }
-
+        return view('mahasiswa.riwayat', [
+            'title' => 'Riwayat Rekomendasi',
+            'active' => 'riwayat',
+            'mahasiswa' => $mahasiswa,
+            'riwayatRekomendasi' => $riwayatRekomendasi,
+        ]);
+    }
 
 
 }
-
-

@@ -10,6 +10,10 @@
             <div class="grid grid-cols-2 gap-4">
 
                 <div class="form-group">
+                    <label for="mahasiswa" class="block text-sm font-medium text-gray-700">Mahasiswa</label>
+                    <input type="text" id="ipk" name="ipk_sebelumnya" value="{{ $mahasiswa->name }}" {{ $mahasiswa->id == $mahasiswa->name ? 'selected' : '' }} class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
+                </div>
+                <div class="form-group">
                     <label for="semester" class="block text-sm font-medium text-gray-700">Semester:</label>
                     <select name="semester" id="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         @foreach ($semesters as $semester)
@@ -22,7 +26,7 @@
 
                 <div class="form-group">
                     <label for="matkul_mengulang" class="block text-sm font-medium text-gray-700">Mata Mengulang:</label>
-                    <input type="number" id="matkul_mengulang" name="matkul_mengulang" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    <input type="number" min="0" id="matkul_mengulang" name="matkul_mengulang" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                 </div>
 
                 <div class="form-group">

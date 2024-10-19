@@ -22,40 +22,36 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'role:admin'])->group(function () {
 
     //Kelola User
-    //Admin
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/admin/admin/create', [AdminController::class, 'createAdmin']);
-    Route::post('/admin/admin', [AdminController::class, 'storeAdmin']);
-    Route::get('/admin/admin/{admin}/edit', [AdminController::class, 'editAdmin'])->name('admin.editAdmin');
-    Route::put('/admin/admin/{admin}', [AdminController::class, 'updateAdmin']);
+        //Admin
+        Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+        Route::get('/admin/admin/create', [AdminController::class, 'createAdmin']);
+        Route::post('/admin/admin', [AdminController::class, 'storeAdmin']);
+        Route::get('/admin/admin/{admin}/edit', [AdminController::class, 'editAdmin'])->name('admin.editAdmin');
+        Route::put('/admin/admin/{admin}', [AdminController::class, 'updateAdmin']);
 
-    //Dosen
-    Route::get('/admin/dosen/create', [AdminController::class, 'createDosen']);
-    Route::post('/admin/dosen', [AdminController::class, 'storeDosen']);
-    Route::get('/admin/dosen/{dosen}/edit', [AdminController::class, 'editDosen']);
-    Route::put('/admin/dosen/{dosen}', [AdminController::class, 'updateDosen']);
-    Route::delete('/admin/dosen/{dosen}', [AdminController::class, 'destroyDosen']);
+        //Dosen
+        Route::get('/admin/dosen/create', [AdminController::class, 'createDosen']);
+        Route::post('/admin/dosen', [AdminController::class, 'storeDosen']);
+        Route::get('/admin/dosen/{dosen}/edit', [AdminController::class, 'editDosen']);
+        Route::put('/admin/dosen/{dosen}', [AdminController::class, 'updateDosen']);
+        Route::delete('/admin/dosen/{dosen}', [AdminController::class, 'destroyDosen']);
 
-    //Mahasiswa
-    Route::get('/admin/mahasiswa/create',
-    [AdminController::class, 'createMahasiswa']);
-    Route::post('/admin/mahasiswa', [AdminController::class, 'storeMahasiswa'])->name('admin.mahasiswa.store');
-    Route::get('/admin/mahasiswa/{mahasiswa}/edit', [AdminController::class, 'editMahasiswa']);
-    Route::put('/admin/mahasiswa/{mahasiswa}', [AdminController::class, 'updateMahasiswa']);
-    Route::delete('/admin/mahasiswa/{mahasiswa}', [AdminController::class, 'destroyMahasiswa']);
-    Route::get('/admin', function () {
-        return redirect()->route('admin.dashboard');
-    });
+        //Mahasiswa
+        Route::get('/admin/mahasiswa/create',
+        [AdminController::class, 'createMahasiswa']);
+        Route::post('/admin/mahasiswa', [AdminController::class, 'storeMahasiswa'])->name('admin.mahasiswa.store');
+        Route::get('/admin/mahasiswa/{mahasiswa}/edit', [AdminController::class, 'editMahasiswa']);
+        Route::put('/admin/mahasiswa/{mahasiswa}', [AdminController::class, 'updateMahasiswa']);
+        Route::delete('/admin/mahasiswa/{mahasiswa}', [AdminController::class, 'destroyMahasiswa']);
+        Route::get('/admin', function () {
+            return redirect()->route('admin.dashboard');
+        });
 
     //Kelola Matkul
     Route::resource('/admin/matkul', MatkulController::class);
     Route::get('/admin/matkul/{semesterId}', function($semesterId) {
         return Matkul::where('semester_id', $semesterId)->get();
     });
-    
-    
-    
-
 
     //Kelola Transkrip Nilai
     Route::resource('/admin/transkrip', TranskripController::class);
@@ -89,7 +85,7 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::post('/mahasiswa/menu/calculate', [FuzzyCalculationController::class, 'calculateFuzzification'])->name('calculate.fuzzification');
 
     //Route untuk mengakses riwayat hasil fuzzy untuk KRS dan paket rekomendasi KRS
-    Route::get('/mahasiswa/riwayat', [RiwayatController::class,'index'])->name('riwayat');
+    Route::get('/mahasiswa/riwayat', [FuzzyCalculationController::class, 'riwayat'])->name('riwayat');
 });
 
 Route::get('/', function () {

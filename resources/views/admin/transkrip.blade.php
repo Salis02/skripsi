@@ -6,19 +6,19 @@
             <h2 class="text-2xl text-center font-bold">Daftar Transkrip</h2>
             <div class="flex justify-start">
                 <a href="{{ route('transkrip.create') }}" class="inline-block">
-                    <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                    <button class="w-50 mb-2 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                         Tambah Transkrip
                     </button>
                 </a>
             </div>
 
             @if(session('success'))
-                <div class="bg-green-500 text-white p-2 rounded">
+                <div class="px-4 py-2 text-sm font-medium leading-5 text-black transition-colors duration-150 bg-green-100 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <input type="text" id="search-input" placeholder="Cari Mahasiswa" class="shadow appearance-none border rounded w-full mt-4 mb-4 mx-2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <input type="text" id="search-input" placeholder="Cari Mahasiswa" class="block w-full mt-2 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md">
 
             <div class="w-full mt-2 overflow-hidden rounded-lg shadow-md">
                 <div class="w-full overflow-x-auto ">

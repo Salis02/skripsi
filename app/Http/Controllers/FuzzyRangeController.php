@@ -13,7 +13,10 @@ class FuzzyRangeController extends Controller
     public function index()
     {
         $fuzzyRanges = FuzzyRange::all();
-        return view('dosen.fuzzyRange', compact('fuzzyRanges'));
+        return view('dosen.fuzzyRange', compact('fuzzyRanges'), [
+            'title' => 'Rentan Fuzzy',
+            'active' => 'rentanFuzzy'
+        ]);
     }
 
     /**

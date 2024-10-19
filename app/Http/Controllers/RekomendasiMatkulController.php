@@ -11,7 +11,10 @@ class RekomendasiMatkulController extends Controller
     public function index()
     {
         $rekomendasiMatkuls = RekomendasiMatkul::with('matkul')->get();
-        return view('dosen.rekomendasi_matkul', compact('rekomendasiMatkuls'));
+        return view('dosen.rekomendasi_matkul', compact('rekomendasiMatkuls'),[
+            'title' => 'Paket Rekomendasi',
+            'active' => 'rekomendasi'
+        ]);
     }
 
     public function create()

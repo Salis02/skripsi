@@ -12,6 +12,7 @@ class InputFuzzy extends Model
     protected $table = 'inputfuzzy';
 
     protected $fillable = [
+        'mahasiswa_id',
         'semester_id',
         'ipk_sebelumnya',
         'matkul_mengulang',
@@ -23,6 +24,12 @@ class InputFuzzy extends Model
     public function semester()
     {
         return $this->belongsTo(Semester::class);
+    }
+
+    // Relasi ke tabel mahasiswa
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
     }
 }
 

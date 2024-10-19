@@ -46,4 +46,9 @@ class Mahasiswa extends Model
         return $this->belongsTo(Semester::class, 'semester_id');
     }
 
+    public function inputFuzzy()
+    {
+        return $this->hasMany(InputFuzzy::class, 'mahasiswa_id');
+    }
+
 }

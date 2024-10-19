@@ -10,7 +10,10 @@ class DosenController extends Controller
     public function index()
     {
         $dosens = Dosen::with('user')->get();
-        return view('dosen.dashboard');
+        return view('dosen.dashboard', [
+            'title' => 'dashboard',
+            'active' => 'Dashboard'
+        ]);
     }
 }
 
