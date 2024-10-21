@@ -2,17 +2,12 @@
 
 @section('container')
 <h1 class="text-2xl text-center font-bold mb-5">Silahkan isi data berikut</h1>
-<div class="bg-">
-    <div class="container mx-2 my-2 bg-gradient-to-r from-green-400 to-blue-400 bg-opacity-75 rounded-md">
+<div class="container">
+    <div class="w-full container mx-2 my-2 bg-teal-500 rounded-md">
         <form action="{{ route('calculate.fuzzification') }}" method="POST" class="py-2 px-2">
             @csrf
-
             <div class="grid grid-cols-2 gap-4">
-
-                <div class="form-group">
-                    <label for="mahasiswa" class="block text-sm font-medium text-gray-700">Mahasiswa</label>
-                    <input type="text" id="ipk" name="ipk_sebelumnya" value="{{ $mahasiswa->name }}" {{ $mahasiswa->id == $mahasiswa->name ? 'selected' : '' }} class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
-                </div>
+                <input type="hidden" id="ipk" name="ipk_sebelumnya" value="{{ $mahasiswa->name }}" {{ $mahasiswa->id == $mahasiswa->name ? 'selected' : '' }} class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
                 <div class="form-group">
                     <label for="semester" class="block text-sm font-medium text-gray-700">Semester:</label>
                     <select name="semester" id="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -44,7 +39,7 @@
             </div>
 
             <div class="mt-6 text-center">
-                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Hitung</button>
+                <button type="submit" class="bg-blue-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Hitung</button>
             </div>
         </form>
     </div>

@@ -47,7 +47,7 @@
             </a>
             
             <ul class="mt-6">
-                <li class="relative px-6 py-3">
+                <li class="relative px-6 py-3  {{ $active === 'Dashboard' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
                     <span
                         class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg
                         {{ $active === 'Dashboard' ? '' : 'hidden' }}"
@@ -77,7 +77,12 @@
                 </li>
             </ul>
             <ul>
-                <li class="relative px-6 py-3">
+              <li class="relative text-sm px-6 py-2">
+                Menu Kelola
+              </li>
+            </ul>
+            <ul>
+                <li class="relative px-6 py-3 {{ $active === 'Matkul' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
                         <span
                             class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'Matkul' ? '' : 'hidden' }}"
                             aria-hidden="true"
@@ -103,7 +108,7 @@
                         <span class="ml-4">Kelola Mata Kuliah</span>
                     </a>
                 </li>
-                <li class="relative px-6 py-3">
+                <li class="relative px-6 py-3  {{ $active === 'Transkrip' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
                         <span
                             class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'Transkrip' ? '' : 'hidden' }}"
                             aria-hidden="true"
@@ -164,7 +169,7 @@
             ALMA ATA UNIVERSITY
             </a>
             <ul class="mt-6">
-                <li class="relative px-6 py-3">
+                <li class="relative px-6 py-3  {{ $active === 'Dashboard' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
                   <span
                   class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg
                   {{ $active === 'Dashboard' ? '' : 'hidden' }}"
@@ -194,7 +199,12 @@
                 </li>
             </ul>
             <ul>
-                <li class="relative px-6 py-3">
+              <li class="relative text-sm px-6 py-2">
+                Menu Kelola
+              </li>
+            </ul>
+            <ul>
+                <li class="relative px-6 py-3  {{ $active === 'Matkul' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
                   <span
                   class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'Matkul' ? '' : 'hidden' }}"
                   aria-hidden="true"
@@ -220,7 +230,7 @@
                         <span class="ml-4">Kelola Mata Kuliah</span>
                     </a>
                 </li>
-            <li class="relative px-6 py-3">
+            <li class="relative px-6 py-3  {{ $active === 'Transkrip' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
               <span
               class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'Transkrip' ? '' : 'hidden' }}"
               aria-hidden="true"
@@ -394,7 +404,7 @@
                 </div>
               </header>
               <main class="h-full overflow-y-auto">
-                <div class="container px-6 mx-auto grid">
+                <div class="container h-full bg-green-100 dark:bg-gray-800 px-6 mx-auto grid">
                     @yield(
                         'container'
                     )

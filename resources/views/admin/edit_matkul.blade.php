@@ -61,7 +61,7 @@
             <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="typeId">Type:</label>
             <select name="typeId" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                 @foreach($types as $type)
-                    <option value="{{ $type->id }}">{{ $type->sifat }}</option>
+                    <option value="{{ $type->id }} {{ $type->id == $type->sifatId ? 'selected' : '' }}">{{ $type->sifat }}</option>
                 @endforeach
             </select>
         </div>

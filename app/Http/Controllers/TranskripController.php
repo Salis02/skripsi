@@ -13,15 +13,22 @@ class TranskripController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil parameter sorting dari request
-        $sortOrder = $request->get('sort', 'asc'); // default asc jika tidak ada parameter
+        $search = $request->input('search'); // Ambil input pencarian
 
         // Ambil transkrip dengan sorting berdasarkan nama mahasiswa
-        $transkrip = Transkrip::with(['matkul', 'mahasiswa'])
-                    ->orderBy(Mahasiswa::select('name')->whereColumn('mahasiswas.id', 'transkrip.mahasiswa_id'), $sortOrder)
-                    ->get();
+        $query = Transkrip::with(['matkul', 'mahasiswa'])
+                    ->orderBy(Mahasiswa::select('name')->whereColumn('mahasiswas.id', 'transkrip.mahasiswa_id'));
 
-        return view('admin.transkrip', compact('transkrip', 'sortOrder'), [
+        // Jika ada input pencarian, tambahkan kondisi where
+        if ($search) {
+            $query->whereHas('mahasiswa', function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        }
+
+        $transkrip = $query->paginate(10);
+
+        return view('admin.transkrip', compact('transkrip', 'search'), [
             'title' => 'Kelola Transkrip',
             'active' => 'Transkrip'
         ]);

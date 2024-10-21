@@ -7,7 +7,7 @@
     <a href="{{ route('rekomendasi_matkul.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah Rekomendasi</a>
 
     <table class="min-w-full mt-4">
-        <thead>
+        <thead id="dataTable">
             <tr>
                 <th class="px-4 py-2">ID</th>
                 <th class="px-4 py-2">Type</th>

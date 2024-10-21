@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class MatkulController extends Controller
 {
     public function index(Request $request) {
-        // $matkuls = Matkul::with( 'semester', 'typeMatkul')->get();
 
         $search = $request->get('search');
         $semesterId = $request->get('semesterId');
@@ -38,9 +37,15 @@ class MatkulController extends Controller
             return $matkul->semester ? $matkul->semester->semester : 'N/A';
         });
 
+        // Hitung total SKS
+        $totalSks = null;
+        if (!$search && !$semesterId) {
+            $totalSks = Matkul::sum('totalSks');
+        }
+
         $semesters = Semester::all();  // Ambil data semua semester untuk form select
 
-        return view('admin.matkul', compact('matkuls' , 'groupedMatkuls', 'semesters'), [
+        return view('admin.matkul', compact('matkuls' , 'groupedMatkuls', 'semesters', 'totalSks'), [
             'title' => 'Kelola Matkul',
             'active' => 'Matkul'
         ]);

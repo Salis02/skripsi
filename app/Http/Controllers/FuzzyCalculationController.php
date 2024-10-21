@@ -246,6 +246,16 @@ class FuzzyCalculationController extends Controller
             'riwayatRekomendasi' => $riwayatRekomendasi,
         ]);
     }
+    
+    public function hapusRiwayat($id)
+    {
+        // Ambil data input fuzzy berdasarkan ID dan hapus
+        $inputFuzzy = InputFuzzy::findOrFail($id);
+        $inputFuzzy->delete();
+
+        // Redirect kembali ke halaman riwayat dengan pesan sukses
+        return redirect()->route('riwayat')->with('success', 'Riwayat berhasil dihapus.');
+    }
 
 
 }

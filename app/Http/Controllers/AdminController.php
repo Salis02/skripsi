@@ -12,12 +12,25 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $dosens = Dosen::all();
-        $mahasiswas = Mahasiswa::all();
+        $search = $request->get('search'); // Ambil input pencarian
+
+        // Query untuk dosen
+        $dosens = Dosen::when($search, function($query) use ($search) {
+            return $query->where('name', 'LIKE', "%{$search}%");
+        })->get();
+
+        // Query untuk mahasiswa
+        $mahasiswas = Mahasiswa::when($search, function($query) use ($search) {
+            return $query->where('name', 'LIKE', "%{$search}%")
+                        ->orWhere('nim', 'LIKE', "%{$search}%");
+        })->get();
+
+        // Ambil data semester dan admin
         $semesters = Semester::all();
         $admins = User::where('role', 'admin')->get();
+
         return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins', 'semesters'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
@@ -41,7 +54,7 @@ class AdminController extends Controller
             'role' => 'admin',
         ]);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('success', 'Admin berhasil dibuat.');
     }
 
     public function editAdmin(User $admin)
@@ -83,7 +96,7 @@ class AdminController extends Controller
             'user_id' => $user->id,
         ]);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('success', 'Dosen berhasil dibuat.');
     }
 
     public function editDosen(Dosen $dosen)
@@ -106,7 +119,7 @@ class AdminController extends Controller
             'name' => $request->name,
         ]);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('success', 'Dosen berhasil diperbaharui.');
     }
 
     public function destroyDosen(Dosen $dosen)
@@ -194,7 +207,7 @@ class AdminController extends Controller
             'semesterId' => $request->semesterId,
         ]);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('success', 'Mahasiswa berhasil diperbaharui.');
     }
 
     public function destroyMahasiswa(Mahasiswa $mahasiswa)

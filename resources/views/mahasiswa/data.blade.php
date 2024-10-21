@@ -17,7 +17,7 @@
             </div>
             <div class="mt-8">
               <h3 class="text-lg font-bold text-gray-800">Informasi Pribadi</h3>
-              <div class="mt-4">
+              <div class="mt-4 ">
                 <div class="flex items-center">
                   <span class="text-gray-600 mr-4">Nama</span>
                   <span class="text-gray-800">:</span>
@@ -56,6 +56,41 @@
               </div>
             </div>
           </div>
+          @php
+              // Mengelompokkan transkrip berdasarkan semester
+              $transkripBySemester = $transkrip->groupBy(function($item) {
+                  return $item->matkul->semester->semester; // Ganti dengan atribut yang sesuai
+              });
+
+              // Mengurutkan semester dari yang terkecil ke yang terbesar
+              $sortedSemesters = $transkripBySemester->keys()->sort()->values();
+          @endphp
+
+          @foreach($sortedSemesters as $semester)
+              <h3 class="mt-4 text-lg font-semibold">Semester {{ $semester }}</h3>
+              <table class="mt-2 min-w-full bg-white border border-gray-300">
+                  <thead>
+                      <tr class="text-left">
+                          <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
+                          <th class="py-2 px-4 border-b">SKS</th>
+                          <th class="py-2 px-4 border-b">Nilai Akhir</th>
+                          <th class="py-2 px-4 border-b">Nilai</th>
+                          <th class="py-2 px-4 border-b">Bobot</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      @foreach($transkripBySemester[$semester] as $item)
+                          <tr>
+                              <td class="w-1/2 py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
+                              <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
+                              <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
+                              <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
+                              <td class="py-2 px-4 border-b">{{ $item->bobot }}</td>
+                          </tr>
+                      @endforeach
+                  </tbody>
+              </table>
+          @endforeach
         </div>
         
 @endsection

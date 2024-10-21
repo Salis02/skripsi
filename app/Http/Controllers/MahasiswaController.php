@@ -51,6 +51,7 @@ class MahasiswaController extends Controller
             'title' => 'Data Saya' ,
             'active' => 'data',
             'mahasiswa' => $mahasiswa,
+            'transkrip' => $transkrip,
             'indeksPrestasi' => number_format($indeksPrestasi, 2), // Format dengan 2 angka di belakang koma
             'totalSks' => $totalSks // Tampilkan total SKS
         ]);

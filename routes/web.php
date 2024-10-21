@@ -86,6 +86,8 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
 
     //Route untuk mengakses riwayat hasil fuzzy untuk KRS dan paket rekomendasi KRS
     Route::get('/mahasiswa/riwayat', [FuzzyCalculationController::class, 'riwayat'])->name('riwayat');
+    Route::delete('/mahasiswa/riwayat/{id}', [FuzzyCalculationController::class, 'hapusRiwayat'])->name('riwayat.hapus');
+
 });
 
 Route::get('/', function () {

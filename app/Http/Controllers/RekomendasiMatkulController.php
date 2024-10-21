@@ -11,7 +11,7 @@ class RekomendasiMatkulController extends Controller
     public function index()
     {
         $rekomendasiMatkuls = RekomendasiMatkul::with('matkul')->get();
-        return view('dosen.rekomendasi_matkul', compact('rekomendasiMatkuls'),[
+        return view('dosen.rekomendasi_matkul', compact('rekomendasiMatkuls'), [
             'title' => 'Paket Rekomendasi',
             'active' => 'rekomendasi'
         ]);
@@ -20,7 +20,10 @@ class RekomendasiMatkulController extends Controller
     public function create()
     {
         $matkuls = Matkul::all();
-        return view('dosen.rekomendasi_matkul-create', compact('matkuls'));
+        return view('dosen.rekomendasi_matkul-create', compact('matkuls'),  [
+            'title' => 'Paket Rekomendasi',
+            'active' => 'rekomendasi'
+        ]);
     }
 
     public function store(Request $request)
@@ -38,7 +41,10 @@ class RekomendasiMatkulController extends Controller
     public function edit(RekomendasiMatkul $rekomendasiMatkul)
     {
         $matkuls = Matkul::all();
-        return view('dosen.rekomendasi_matkul-edit', compact('rekomendasiMatkul', 'matkuls'));
+        return view('dosen.rekomendasi_matkul-edit', compact('rekomendasiMatkul', 'matkuls'), [
+            'title' => 'Paket Rekomendasi',
+            'active' => 'rekomendasi'
+        ]);
     }
 
     public function update(Request $request, RekomendasiMatkul $rekomendasiMatkul)
