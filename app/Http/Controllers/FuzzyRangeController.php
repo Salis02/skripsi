@@ -24,7 +24,10 @@ class FuzzyRangeController extends Controller
      */
     public function create()
     {
-        return view('dosen.fuzzyRange-create');
+        return view('dosen.fuzzyRange-create',  [
+            'title' => 'Rentan Fuzzy',
+            'active' => 'rentanFuzzy'
+        ]);
     }
 
     /**
@@ -50,7 +53,10 @@ class FuzzyRangeController extends Controller
      */
     public function edit(FuzzyRange $fuzzyRange)
     {
-        return view('dosen.fuzzyRange-edit', compact('fuzzyRange'));
+        return view('dosen.fuzzyRange-edit', compact('fuzzyRange'),  [
+            'title' => 'Rentan Fuzzy',
+            'active' => 'rentanFuzzy'
+        ]);
     }
 
     /**

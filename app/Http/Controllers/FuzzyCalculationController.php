@@ -65,53 +65,66 @@ class FuzzyCalculationController extends Controller
     {
         // dd($input, $variabel);
         // Ambil rentang dari tabel fuzzyRange berdasarkan variabel
+        // Ambil data dari database untuk variabel tertentu
         $ranges = FuzzyRange::where('variabel', $variabel)->get();
 
-        // dd($ranges);
         // Inisialisasi array untuk menyimpan nilai keanggotaan fuzzy
         $membership = [];
 
-        // Fuzzifikasi untuk IPK
+        // Fuzzifikasi untuk IPK Sebelumnya
         if ($variabel === 'ipk_sebelumnya') {
-            if ($input <= 2.00) {
-                // Jika IPK di bawah atau sama dengan 2.00, maka masuk ke kategori rendah penuh
-                $membership['rendah'] = 1;
-                $membership['sedang'] = 0;
-                $membership['tinggi'] = 0;
-            } elseif ($input > 2.00 && $input < 3.00) {
-                // Jika IPK di antara 2.00 dan 3.00, interpolasi antara rendah dan sedang
-                $membership['rendah'] = (3.00 - $input) / (3.00 - 2.00);
-                $membership['sedang'] = ($input - 2.00) / (3.00 - 2.00);
-                $membership['tinggi'] = 0;
-            } elseif ($input >= 3.00 && $input < 4.00) {
-                // Jika IPK di antara 3.00 dan 4.00, interpolasi antara sedang dan tinggi
-                $membership['rendah'] = 0;
-                $membership['sedang'] = (4.00 - $input) / (4.00 - 3.00);
-                $membership['tinggi'] = ($input - 3.00) / (4.00 - 3.00);
-            } else {
-                // Jika IPK >= 4.00, maka masuk ke kategori tinggi penuh
-                $membership['rendah'] = 0;
-                $membership['sedang'] = 0;
-                $membership['tinggi'] = 1;
+            foreach ($ranges as $range) {
+                // Dapatkan batas-batas untuk kategori (rendah, sedang, tinggi)
+                $min = $range->min_value;
+                $max = $range->max_value;
+
+                if ($range->category === 'rendah' && $input <= $max) {
+                    // Jika IPK <= 2.00, kategori rendah penuh
+                    $membership['rendah'] = 1;
+                    $membership['sedang'] = 0;
+                    $membership['tinggi'] = 0;
+                } elseif ($range->category === 'sedang' && $input > $min && $input < $max) {
+                    // Jika IPK antara 2.00 dan 3.00, interpolasi antara rendah dan sedang
+                    $membership['rendah'] = ($max - $input) / ($max - $min);
+                    $membership['sedang'] = ($input - $min) / ($max - $min);
+                    $membership['tinggi'] = 0;
+                } elseif ($range->category === 'tinggi' && $input >= $min && $input <= $max) {
+                    // Jika IPK antara 3.00 dan 4.00, interpolasi antara sedang dan tinggi
+                    $membership['rendah'] = 0;
+                    $membership['sedang'] = ($max - $input) / ($max - $min);
+                    $membership['tinggi'] = ($input - $min) / ($max - $min);
+                } elseif ($range->category === 'tinggi' && $input >= $max) {
+                    // Jika IPK >= 4.00, kategori tinggi penuh
+                    $membership['rendah'] = 0;
+                    $membership['sedang'] = 0;
+                    $membership['tinggi'] = 1;
+                }
             }
         }
 
         // Fuzzifikasi untuk Matkul Mengulang
         if ($variabel === 'matkul_mengulang') {
-            if ($input <= 1) {
-                // Jika matkul mengulang <= 1, maka masuk ke kategori sedikit penuh
-                $membership['sedikit'] = 1;
-                $membership['banyak'] = 0;
-            } elseif ($input > 1 && $input <= 3) {
-                // Jika matkul mengulang antara 1 dan 3, interpolasi antara sedikit dan banyak
-                $membership['sedikit'] = (3 - $input) / (3 - 1);
-                $membership['banyak'] = ($input - 1) / (3 - 1);
-            } else {
-                // Jika matkul mengulang >= 3, maka masuk ke kategori banyak penuh
-                $membership['sedikit'] = 0;
-                $membership['banyak'] = 1;
+            foreach ($ranges as $range) {
+                // Dapatkan batas-batas untuk kategori (sedikit, banyak)
+                $min = $range->min_value;
+                $max = $range->max_value;
+
+                if ($range->category === 'sedikit' && $input <= $max) {
+                    // Jika matkul mengulang <= 1, kategori sedikit penuh
+                    $membership['sedikit'] = 1;
+                    $membership['banyak'] = 0;
+                } elseif ($range->category === 'banyak' && $input > $min && $input <= $max) {
+                    // Jika matkul mengulang antara 1 dan 3, interpolasi antara sedikit dan banyak
+                    $membership['sedikit'] = ($max - $input) / ($max - $min);
+                    $membership['banyak'] = ($input - $min) / ($max - $min);
+                } elseif ($range->category === 'banyak' && $input >= $max) {
+                    // Jika matkul mengulang >= 3, kategori banyak penuh
+                    $membership['sedikit'] = 0;
+                    $membership['banyak'] = 1;
+                }
             }
         }
+
 
         // dd($membership);
         return $membership; // Kembalikan hasil keanggotaan untuk setiap kategori
@@ -228,7 +241,7 @@ class FuzzyCalculationController extends Controller
         $z_total = ($denominator != 0) ? $numerator / $denominator : 0;
 
         // dd($z_total);
-        return round($z_total * 1.05); // Kembalikan hasil SKS sebagai angka bulat
+        return round(ceil($z_total)); // Kembalikan hasil SKS sebagai angka bulat
     }
 
     //Method Riwayat Rekomendasi

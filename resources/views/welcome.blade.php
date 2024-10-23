@@ -10,11 +10,12 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-[#1B75BB] flex items-center justify-center min-h-screen">
-    <div class="bg-white rounded-lg shadow-md p-10 w-[500px]">
-    <div class="text-center text-[#499cbf] mb-8">
-        <h1 class="text-5xl font-bold text-[#499cbf] mb-8 mt-20">SELAMAT DATANG!</h1>
-        <p class="text-xl text-[#499cbf] mb-8 mt-10">INGIN REKOMENDASI KRS?</p>
-        <a href="/login" class="mt-5 px-10 my-2 py-2 bg-[#499cbf] text-white rounded font-bold">LOGIN</a>
+    <div class=" bg-white rounded-lg shadow-md p-10 w-[500px]">
+        <img src="{{ asset('img/images.png') }}" alt="" class="mx-auto mb-3">
+        <div class=" text-center text-[#499cbf] mb-8">
+            <h1 class="text-4xl font-bold text-[#499cbf] mb-8">SELAMAT DATANG!</h1>
+            <p class="text-xl text-[#499cbf] mb-8 mt-10">INGIN REKOMENDASI KRS?</p>
+            <a href="/login" class="mt-5 px-10 my-2 py-2 bg-[#499cbf] text-white rounded font-bold">LOGIN</a>
     </div>
     </div>
 </body>

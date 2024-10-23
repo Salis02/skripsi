@@ -404,7 +404,7 @@
                 </div>
               </header>
               <main class="h-full overflow-y-auto">
-                <div class="container h-full bg-green-100 dark:bg-gray-800 px-6 mx-auto grid">
+                <div class="container h-full dark:bg-gray-800 px-6 mx-auto grid">
                     @yield(
                         'container'
                     )

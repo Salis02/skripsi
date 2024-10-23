@@ -1,6 +1,7 @@
 @extends('admin.layout.header')
 
 @section('container')
+<div class="h-full">
     <h1
       class="my-6 text-2xl text-center font-semibold text-gray-700 dark:text-gray-200"
     >
@@ -8,7 +9,7 @@
     </h1>
 
     @if(session('success'))
-        <div class="px-4 py-2 text-sm font-medium leading-5 text-black transition-colors duration-150 bg-green-100 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple">
+        <div class="px-4 py-2 mb-4 text-sm font-medium leading-5 text-black transition-colors duration-150 bg-green-100 border border-transparent rounded-lg focus:outline-none focus:shadow-outline-purple">
             {{ session('success') }}
         </div>
     @endif
@@ -16,7 +17,8 @@
     
     <form action="{{ route('admin.dashboard') }}" method="GET" class="mx-2 my-2">
         @csrf
-        <div
+        <div class="w-full flex justify-end">
+            <div
         class="relative w-full max-w-xl mr-6 focus-within:text-purple-500"
         >
             <div class="absolute inset-y-0 flex items-center pl-2">
@@ -34,12 +36,14 @@
             </svg>
             </div>
             <input
-            class="w-full pl-8 pr-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
+            class="w-full pl-8 pr-2 text-sm text-gray-400 placeholder-gray-600 bg-white border-1 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
             type="text" name="search" placeholder="Cari Dosen atau Mahasiswa" value="{{ request()->get('search') }}"
             aria-label="Search"
             />
         </div>
         <button class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-blue-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple" type="submit">Cari</button>
+        </div>
+        
     </form>
 
     <h2 class="mb-2 text-xl font-semibold text-gray-700 dark:text-gray-200">Data Admin</h2>
@@ -60,7 +64,7 @@
                     <thead>
                         <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                             <th class="px-4 py-3" scope="col">No.</th>
-                            <th class="px-4 py-3" scope="col">Nama</th>
+                            <th class="px-4 py-3" scope="col">Nama Admin</th>
                             <th class="px-4 py-3" scope="col">Username/Email</th>
                             {{-- <th class="px-4 py-3" scope="col">Action</th> --}}
                         </tr>
@@ -68,6 +72,7 @@
                     <tbody
                         class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                     >
+                    
                         @php
                             $i = 1; // Inisialisasi variabel di luar loop
                         @endphp
@@ -115,12 +120,13 @@
             </a>
         </div>
         
+    {{-- <div class="w-full mt-2 overflow-hidden rounded-lg shadow-md"> --}}
         <div class="w-full overflow-x-auto shadow-md">
-            <table class="w-full table-auto whitespace-wrap">
+            <table class="w-full whitespace-wrap">
                 <thead>
                     <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3" scope="col">No.</th>
-                        <th class="px-4 py-3" scope="col">Nama</th>
+                        <th class="px-4 py-3" scope="col">Nama Dosen</th>
                         <th class="px-4 py-3" scope="col">Username/Email</th>
                         <th class="px-4 py-3" scope="col">Action</th>
                     </tr>
@@ -171,6 +177,7 @@
                 </tbody>
             </table>
         </div>
+   
         <br>
         <h2 class="mb-2 text-xl font-semibold text-gray-700 dark:text-gray-200">Data Mahasiswa</h2>
         <div class="flex justify-start">
@@ -183,11 +190,11 @@
             </a>
         </div>
         <div class="w-full overflow-x-auto shadow-md">
-            <table class="w-full table-auto whitespace-wrap text-xs">
+            <table class="w-full whitespace-wrap text-xs">
                 <thead>
                     <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                         <th class="px-4 py-3" scope="col">No.</th>
-                        <th class="px-4 py-3" scope="col">Nama/NIM</th>
+                        <th class="px-4 py-3" scope="col">Nama/NIM Mahasiswa</th>
                         <th class="px-4 py-3" scope="col">Email</th>
                         <th class="px-4 py-3" scope="col">Semester</th>
                         <th class="px-4 py-3" scope="col">Tanggal Lahir</th>
@@ -245,7 +252,8 @@
                 </tbody>
             </table>
         </div>
-        
+    </div>
+</div>        
         
     
 @endsection

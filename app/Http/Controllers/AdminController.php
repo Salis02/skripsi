@@ -31,6 +31,7 @@ class AdminController extends Controller
         $semesters = Semester::all();
         $admins = User::where('role', 'admin')->get();
 
+
         return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins', 'semesters'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'

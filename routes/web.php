@@ -61,6 +61,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:dosen'])->group(function () {
     Route::get('/dosen/dashboard', [DosenController::class, 'index'])->name('dosen.dashboard');
+    Route::get('/dosen/transkrip/{mahasiswa}', [DosenController::class, 'transkrip'])->name('dosen.transkrip');
     Route::get('/dosen', function () {
         return redirect()->route('dosen.dashboard');
     });

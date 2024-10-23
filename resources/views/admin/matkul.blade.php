@@ -24,13 +24,14 @@
             </div>
         @endif
     
-        <form action="{{ route('matkul.index') }}" method="GET" class="mt-4 w-1/2">
+        <form action="{{ route('matkul.index') }}" method="GET" class="mt-4 flex justify-end">
             @csrf
+        
             <!-- Input untuk pencarian berdasarkan kode atau nama matkul -->
-            <input type="text" name="search" placeholder="Cari berdasarkan kode atau nama matkul" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md" value="{{ request()->get('search') }}">
-    
+            <input type="text" name="search" placeholder="Cari berdasarkan kode atau nama matkul" class="block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md" value="{{ request()->get('search') }}">
+        
             <!-- Dropdown untuk memilih semester -->
-            <select name="semesterId" class="mt-2 block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md">
+            <select name="semesterId" class="ml-4 mr-2 block w-full text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input shadow-md">
                 <option value="">-- Pilih Semester --</option>
                 @foreach($semesters as $semester)
                     <option value="{{ $semester->id }}" {{ request()->get('semesterId') == $semester->id ? 'selected' : '' }}>
@@ -38,11 +39,14 @@
                     </option>
                 @endforeach
             </select>
-    
+        
             <!-- Tombol submit -->
-            <button type="submit" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">Cari</button>
+            <button type="submit" class="flex px-4 py-2 bg-blue-500 text-white rounded-lg">
+                <svg class="h-5 w-5 text-gray-900"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="11" cy="11" r="8" />  <line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
+                Cari
+            </button>
         </form>
-    
+
     <div class="w-full mt-2 overflow-hidden rounded-lg shadow-xs">
         <div class="w-full overflow-x-auto ">
             <table class="w-full md:table-auto whitespace-wrap text-sm">
