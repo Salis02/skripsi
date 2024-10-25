@@ -354,12 +354,7 @@
                         aria-label="Account"
                         aria-haspopup="true"
                       >
-                        <img
-                          class="object-cover w-8 h-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
-                          alt=""
-                          aria-hidden="true"
-                        />
+                      <svg class="h-6 w-6 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />  <circle cx="12" cy="7" r="4" /></svg>
                       </button>
                       <template x-if="isProfileMenuOpen">
                         <ul

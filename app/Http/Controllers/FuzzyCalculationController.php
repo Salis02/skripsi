@@ -22,12 +22,16 @@ class FuzzyCalculationController extends Controller
         // Mengambil IPK sebelumnya dari method data()
         $indeksPrestasi = $this->getIndeksPrestasi();
 
+        // Mengambil data matkul dengan eager loading typematkul
+        $matkuls = Matkul::with('typematkul')->get();
+
         return view('mahasiswa.menu', [
             'title' => 'Menu Rekomendasi',
             'active' => 'menu',
             'mahasiswa' => $mahasiswa,
             'semesters' => $semesters,
             'indeksPrestasi' => $indeksPrestasi,
+            'matkuls' => $matkuls,
         ]);
     }
 
@@ -167,7 +171,14 @@ class FuzzyCalculationController extends Controller
         // Step 4: Lakukan defuzzifikasi untuk mendapatkan hasil SKS tegas
         $recommended_sks = $this->defuzzification($inference_results);
 
-        // Step 5: Simpan hasil ke dalam tabel inputfuzzy
+        // Step 5: Ambil rekomendasi mata kuliah berdasarkan semester berikutnya
+        $rekomendasi_matkul = $this->getRekomendasiMatkulBySemester($semester_target);
+        
+        // Simpan paket rekomendasi sebagai JSON
+        $paket_rekomendasi_json = json_encode($rekomendasi_matkul);
+       
+
+        // Step 6: Simpan hasil ke dalam tabel inputfuzzy
         InputFuzzy::create([
             'mahasiswa_id' => $mahasiswa->id,
             'semester_id' => $semester_id,
@@ -175,12 +186,10 @@ class FuzzyCalculationController extends Controller
             'matkul_mengulang' => $matkul_mengulang,
             'peminatan' => $peminatan,
             'hasil_defuzzifikasi' => $recommended_sks,
+            'paket_rekomendasi' => $paket_rekomendasi_json,
         ]);
 
-        // Memanggil method baru untuk mengambil rekomendasi mata kuliah
-        // $rekomendasi_matkul = $this->getRekomendasiMatkul($semester_target, $peminatan);
-
-        // Step 6: Kembalikan hasil perhitungan fuzzy ke view
+        // Step 7: Kembalikan hasil perhitungan fuzzy ke view
         return view('mahasiswa.menu', [
             'title' => 'Menu Rekomendasi',
             'active' => 'menu',
@@ -188,7 +197,8 @@ class FuzzyCalculationController extends Controller
             'semesters' => Semester::all(),  // Data semester untuk form
             'indeksPrestasi' => $indeksPrestasi,
             'recommended_sks' => $recommended_sks,  // Hasil SKS dari fuzzy
-            // 'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
+            'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
+            'paket_rekomendasi' => $paket_rekomendasi_json,
         ]);
     }
 
@@ -244,6 +254,25 @@ class FuzzyCalculationController extends Controller
         return round(ceil($z_total)); // Kembalikan hasil SKS sebagai angka bulat
     }
 
+    public function getRekomendasiMatkulBySemester($semester_target)
+    {
+        // Ambil data mata kuliah dari tabel matkul berdasarkan semester target
+        // $rekomendasi = \DB::table('matkul')
+        //     ->where('semesterId', $semester_target)
+        //     ->get();
+        // Ambil data mata kuliah dari tabel matkul berdasarkan semester target
+        $rekomendasi = \DB::table('matkul')
+            ->join('typematkul', 'matkul.typeid', '=', 'typematkul.id') // Ganti 'type_matkul_id' dengan nama kolom foreign key yang sesuai
+            ->select('matkul.*', 'typematkul.sifat') // Pilih semua kolom dari matkul dan kolom sifat dari typematkul
+            ->where('matkul.semesterId', $semester_target)
+            ->get();
+
+        return $rekomendasi;
+
+    }
+
+
+
     //Method Riwayat Rekomendasi
     public function riwayat()
     {
@@ -251,6 +280,11 @@ class FuzzyCalculationController extends Controller
 
         // Ambil semua riwayat rekomendasi dari tabel inputFuzzy
         $riwayatRekomendasi = InputFuzzy::where('mahasiswa_id', $mahasiswa->id)->get();
+
+        // Loop melalui setiap riwayat untuk decode paket rekomendasi dari JSON
+        foreach ($riwayatRekomendasi as $riwayat) {
+            $riwayat->paket_rekomendasi = json_decode($riwayat->paket_rekomendasi);
+        }
 
         return view('mahasiswa.riwayat', [
             'title' => 'Riwayat Rekomendasi',

@@ -1,7 +1,8 @@
 @extends('admin.layout.header')
 
 @section('container')
-<div class="h-full">
+<div class="bg-white mt-4 px-2 rounded-lg dark:bg-gray-700">
+    
     <h1
       class="my-6 text-2xl text-center font-semibold text-gray-700 dark:text-gray-200"
     >

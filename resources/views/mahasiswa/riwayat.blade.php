@@ -31,11 +31,11 @@
             <thead class="text-left">
                 <tr>
                     <th class="py-2 px-4 border-b">No. </th>
-                    <th class="py-2 px-4 border-b">Semester</th>
                     <th class="py-2 px-4 border-b">IPK Sebelumnya</th>
                     <th class="py-2 px-4 border-b">Matkul Mengulang</th>
                     <th class="py-2 px-4 border-b">Peminatan</th>
                     <th class="py-2 px-4 border-b">Hasil Defuzzifikasi</th>
+                    <th class="py-2 px-4 border-b">Paket Rekomendasi</th>
                     <th class="py-2 px-4 border-b">Aksi</th>
                 </tr>
             </thead>
@@ -43,11 +43,24 @@
                 @foreach ($riwayatRekomendasi as $riwayat)
                     <tr>
                         <td class="py-2 px-4 border-b">{{ $i++ }}</td>
-                        <td class="py-2 px-4 border-b">{{ $riwayat->semester_id }}</td>
                         <td class="py-2 px-4 border-b">{{ $riwayat->ipk_sebelumnya }}</td>
                         <td class="py-2 px-4 border-b">{{ $riwayat->matkul_mengulang }}</td>
                         <td class="py-2 px-4 border-b">{{ $riwayat->peminatan }}</td>
                         <td class="py-2 px-4 border-b">{{ $riwayat->hasil_defuzzifikasi }}</td>
+                        <td class="py-2 px-4 border-b">
+                            @if ($riwayat->paket_rekomendasi)
+                            @php
+                                $paket_rekomendasi = json_decode($riwayat->paket_rekomendasi);
+                            @endphp
+                            <ul>
+                                @foreach ($paket_rekomendasi as $matkul)
+                                    <li>{{ $matkul->kodeMatkul }} - {{ $matkul->namaMatkul }} ({{ $matkul->totalSks }} SKS)</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            Tidak ada paket rekomendasi
+                        @endif
+                        </td>
                         <td class="py-2 px-4 border-b">
                             <form action="{{ route('riwayat.hapus', $riwayat->id) }}" method="POST">
                                 @csrf

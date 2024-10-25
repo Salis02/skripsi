@@ -14,6 +14,7 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $search = $request->get('search'); // Ambil input pencarian
 
         // Query untuk dosen
@@ -32,7 +33,7 @@ class AdminController extends Controller
         $admins = User::where('role', 'admin')->get();
 
 
-        return view('admin.dashboard', compact('dosens', 'mahasiswas', 'admins', 'semesters'), [
+        return view('admin.dashboard', compact('dosens', 'user', 'mahasiswas', 'admins', 'semesters'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
         ]);
@@ -215,7 +216,7 @@ class AdminController extends Controller
     {
         $mahasiswa->user->delete();
         $mahasiswa->delete();
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('success', 'Mahasiswa berhasil dihapus.');
     }
 }
 

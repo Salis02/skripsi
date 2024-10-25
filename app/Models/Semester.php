@@ -17,7 +17,7 @@ class Semester extends Model
 
     public function mahasiswa()
     {
-        return $this->hasOne(Mahasiswa::class, 'semester_id');
+        return $this->hasMany(Mahasiswa::class, 'semester_id');
     }
     
 }

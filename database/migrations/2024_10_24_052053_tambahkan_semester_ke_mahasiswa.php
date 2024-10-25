@@ -12,7 +12,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('mahasiswas', function (Blueprint $table) {
-            $table->unsignedBigInteger('semester_id')->unique(); // Unique untuk one-to-one
+            $table->unsignedBigInteger('semester_id'); // Unique untuk one-to-one
             $table->foreign('semester_id')->references('id')->on('semester')->onDelete('restrict'); // Foreign key dengan restrict
         });
         

@@ -49,7 +49,7 @@
                         </thead>
                         <tbody id="transkrip-table-body" class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                             @php
-                                $i=1;
+                                $i = ($transkrip->currentPage() - 1) * $transkrip->perPage() + 1;
                             @endphp
                             @foreach($transkrip as $item)
                                 <tr class="text-gray-700 dark:text-gray-400">
@@ -70,7 +70,7 @@
                                     <td class="px-4 py-3">{{ $item->bobot }}</td>
                                     <td class="px-4 py-3">{{ $item->nilai }}</td>
                                     <td class="px-4 py-3">
-                                        <div class="flex items-center text-sm">
+                                        <div class="flex justify-center text-sm">
                                             {{-- <a href="{{ route('transkrip.edit', $item->id) }}" class="text-blue-500">Edit</a> --}}
                                             <a class="btn btn-outline-warning" href="{{ route('transkrip.edit', $item->id) }}">
                                                 <button
@@ -121,8 +121,16 @@
                 </div>
                 
             </div>
-            
+            <div class="px-4 py-3">
+                {{ $transkrip->links() }}
+            </div>            
 
+
+        </div>
+
+    </main>
+</div>
+@endsection
             <script>
                 document.getElementById('search-input').addEventListener('input', function() {
                     let filter = this.value.toLowerCase();
@@ -138,9 +146,3 @@
                     });
                 });
             </script>
-
-        </div>
-
-    </main>
-</div>
-@endsection
