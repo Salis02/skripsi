@@ -22,8 +22,12 @@ class FuzzyCalculationController extends Controller
         // Mengambil IPK sebelumnya dari method data()
         $indeksPrestasi = $this->getIndeksPrestasi();
 
-        // Mengambil data matkul dengan eager loading typematkul
-        $matkuls = Matkul::with('typematkul')->get();
+        // Mengambil data mata kuliah dengan nilai di bawah C
+        $nilaiDiBawahC = $mahasiswa->transkrip()
+        ->where('nilai_akhir', '<', 7.0)  // Asumsikan nilai di bawah C adalah kurang dari 2.0
+        ->with('matkul')  // Mengambil data mata kuliah terkait
+        ->get();
+
 
         return view('mahasiswa.menu', [
             'title' => 'Menu Rekomendasi',
@@ -31,7 +35,7 @@ class FuzzyCalculationController extends Controller
             'mahasiswa' => $mahasiswa,
             'semesters' => $semesters,
             'indeksPrestasi' => $indeksPrestasi,
-            'matkuls' => $matkuls,
+            'nilaiDiBawahC' => $nilaiDiBawahC,
         ]);
     }
 
@@ -189,6 +193,13 @@ class FuzzyCalculationController extends Controller
             'paket_rekomendasi' => $paket_rekomendasi_json,
         ]);
 
+        // Ambil daftar mata kuliah dengan nilai di bawah C
+        $nilaiDiBawahC = $mahasiswa->transkrip()
+        ->where('nilai_akhir', '<', 7.0)
+        ->with('matkul')
+        ->get();
+
+
         // Step 7: Kembalikan hasil perhitungan fuzzy ke view
         return view('mahasiswa.menu', [
             'title' => 'Menu Rekomendasi',
@@ -199,6 +210,7 @@ class FuzzyCalculationController extends Controller
             'recommended_sks' => $recommended_sks,  // Hasil SKS dari fuzzy
             'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
             'paket_rekomendasi' => $paket_rekomendasi_json,
+            'nilaiDiBawahC' => $nilaiDiBawahC,  // Tambahkan variabel nilaiDiBawahC
         ]);
     }
 

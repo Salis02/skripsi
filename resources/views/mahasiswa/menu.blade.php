@@ -45,14 +45,11 @@
             </div>
         </form>
     </div>
-</div>
-
-
     <!-- Menampilkan hasil fuzzy jika sudah dihitung -->
     @if (isset($recommended_sks))
-       <div class= "mx-2 my-2 bg-blue-300 rounded-lg px-4 py-2">
+       <div class= "mx-2 my-2 w-full bg-blue-300 rounded-lg px-4 py-2">
             <h2 class="text-xl text-left font-bold mb-4">Hasil Perhitungan Fuzzy :</h2>
-            <p class="text-lg">Rekomendasi SKS => <span class="bg-green-400 p-1 rounded-md">{{ $recommended_sks }} SKS</span></p>
+            <p class="text-lg">Rekomendasi SKS => <span class="bg-green-400 p-1 rounded-md"><b>{{ $recommended_sks }} SKS</b></span></p>
             <div class="mt-4">
                 <h4 class="text-lg">Paket Rekomendasi Mata Kuliah</h4>
                 <table class="min-w-full text-white bg-cyan-900 border border-gray-300">
@@ -85,6 +82,40 @@
             </div>
        </div>
     @endif
+
+    <!-- Cek apakah ada data mata kuliah dengan nilai di bawah C -->
+    @if ($nilaiDiBawahC->isEmpty())
+        <p class="text-red-500">Tidak ada mata kuliah dengan nilai di bawah C.</p>
+    @else
+    <div class="mx-2 py-2 bg-red-300 rounded-lg">
+        <h1 class="text-xl text-center font-bold mb-5">Daftar Mata Kuliah yang mengulang</h1>
+            <table class="min-w-full bg-red-400 border border-gray-300">
+                <thead class="text-left">
+                    <tr>
+                        <th class="py-2 px-4 border-b">Kode Mata Kuliah</th>
+                        <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
+                        <th class="py-2 px-4 border-b">SKS</th>
+                        <th class="py-2 px-4 border-b">Nilai Akhir</th>
+                        <th class="py-2 px-4 border-b">Nilai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($nilaiDiBawahC as $item)
+                        <tr>
+                            <td class="py-2 px-4 border-b">{{ $item->matkul->kodeMatkul }}</td>
+                            <td class="py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
+                            <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
+                            <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
+                            <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+    </div>
+    @endif
+</div>
+
+
 
 
 
