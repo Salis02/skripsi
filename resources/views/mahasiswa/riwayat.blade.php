@@ -1,7 +1,7 @@
 @extends('mahasiswa.layouts.header')
 
 @section('container')
-<div class="container mx-auto bg-gray mt-4">
+<div class="bg-white rounded-lg shadow-lg p-10 w-full">
     <a href="{{ route('menu') }}" class="my-2 bg-teal-500 text-white px-4 py-2 rounded hover:bg-red-700">
         Rekomendasi KRS?
     </a>

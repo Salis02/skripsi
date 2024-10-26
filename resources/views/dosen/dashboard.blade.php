@@ -41,7 +41,7 @@
                         <td class="px-4 py-3">{{ $mahasiswa->jenis_kelamin }}</td>
                         <td class="px-4 py-3">
                             <a href="{{ route('dosen.transkrip', $mahasiswa->id) }}">
-                                <button class="text-1rem font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                                <button class="text-1rem p-1 font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                                     Lihat Transkrip
                                 </button>
                             </a>

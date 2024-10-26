@@ -2,7 +2,7 @@
 
 @section('container')
 <h1 class="text-2xl text-center font-bold mb-5">Silahkan isi data berikut</h1>
-<div class="container">
+<div class="bg-white rounded-lg shadow-lg p-10 w-full">
     <div class="w-full container mx-2 my-2 bg-teal-500 rounded-md">
         <form action="{{ route('calculate.fuzzification') }}" method="POST" class="py-2 px-2">
             @csrf
@@ -82,7 +82,8 @@
             </div>
        </div>
     @endif
-
+</div>
+<div class="mt-2 bg-white rounded-lg shadow-lg p-10 w-full">
     <!-- Cek apakah ada data mata kuliah dengan nilai di bawah C -->
     @if ($nilaiDiBawahC->isEmpty())
         <p class="text-red-500">Tidak ada mata kuliah dengan nilai di bawah C.</p>
@@ -114,6 +115,7 @@
     </div>
     @endif
 </div>
+
 
 
 

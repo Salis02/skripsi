@@ -2,7 +2,7 @@
 
 @section('container')
         <div class="container">
-          <div class="mt-8 bg-white rounded-lg shadow-md p-6">
+          <div class="mt-2 bg-white rounded-lg shadow-md p-6">
               <h1 class="text-2xl font-bold text-gray-800 mb-4">DATA MAHASISWA</h1>
             <div class="flex">
               <div class="bg-gray-800 rounded-full p-4 mr-6">
@@ -54,6 +54,7 @@
                         <span class="text-gray-800 ml-4">{{ number_format($indeksPrestasi, 2) }}</span>
                 </div>
               </div>
+              
             </div>
           </div>
           @php
@@ -66,31 +67,34 @@
               $sortedSemesters = $transkripBySemester->keys()->sort()->values();
           @endphp
 
-          @foreach($sortedSemesters as $semester)
-              <h3 class="mt-4 text-lg font-semibold">Semester {{ $semester }}</h3>
-              <table class="mt-2 min-w-full bg-white border border-gray-300">
-                  <thead>
-                      <tr class="text-left">
-                          <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
-                          <th class="py-2 px-4 border-b">SKS</th>
-                          <th class="py-2 px-4 border-b">Nilai Akhir</th>
-                          <th class="py-2 px-4 border-b">Nilai</th>
-                          <th class="py-2 px-4 border-b">Bobot</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach($transkripBySemester[$semester] as $item)
-                          <tr>
-                              <td class="w-1/2 py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
-                              <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
-                              <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
-                              <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
-                              <td class="py-2 px-4 border-b">{{ $item->bobot }}</td>
-                          </tr>
-                      @endforeach
-                  </tbody>
-              </table>
-          @endforeach
+          <div class="mt-2 bg-white rounded-lg shadow-md p-6">
+            <h1 class="text-center text-xl font-bold">Transkrip Nilai</h1>
+            @foreach($sortedSemesters as $semester)
+                <h3 class="mt-4 text-lg font-semibold">Semester {{ $semester }}</h3>
+                <table class="mt-2 min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr class="text-left">
+                            <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
+                            <th class="py-2 px-4 border-b">SKS</th>
+                            <th class="py-2 px-4 border-b">Nilai Akhir</th>
+                            <th class="py-2 px-4 border-b">Nilai</th>
+                            <th class="py-2 px-4 border-b">Bobot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($transkripBySemester[$semester] as $item)
+                            <tr>
+                                <td class="w-1/2 py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
+                                <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
+                                <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
+                                <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
+                                <td class="py-2 px-4 border-b">{{ $item->bobot }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endforeach
+          </div>
         </div>
         
 @endsection
