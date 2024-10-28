@@ -13,7 +13,7 @@
     @endif
 
     <div class="mb-4">
-        <a href="{{ route('fuzzyRange.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Tambah Fuzzy Range</a>
+        <a href="{{ route('fuzzyRange.create') }}" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Tambah Fuzzy Range</a>
     </div>
 
     <div class="w-full overflow-x-auto shadow-md">
@@ -31,12 +31,12 @@
         <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
             @foreach ($fuzzyRanges as $fuzzyRange)
             <tr class="text-gray-700 dark:text-gray-400">
-                <td class="border px-4 py-2">{{ $fuzzyRange->id }}</td>
-                <td class="border px-4 py-2">{{ $fuzzyRange->variabel }}</td>
-                <td class="border px-4 py-2">{{ $fuzzyRange->category }}</td>
-                <td class="border px-4 py-2">{{ $fuzzyRange->min_value }}</td>
-                <td class="border px-4 py-2">{{ $fuzzyRange->max_value }}</td>
-                <td class="border px-4 py-2">
+                <td class="px-4 py-2">{{ $fuzzyRange->id }}</td>
+                <td class="px-4 py-2">{{ $fuzzyRange->variabel }}</td>
+                <td class="px-4 py-2">{{ $fuzzyRange->category }}</td>
+                <td class="px-4 py-2">{{ $fuzzyRange->min_value }}</td>
+                <td class="px-4 py-2">{{ $fuzzyRange->max_value }}</td>
+                <td class="px-4 py-2">
                     <div class="flex items-center text-sm">
                         <a href="{{ route('fuzzyRange.edit', $fuzzyRange->id) }}" class="bg-yellow-500 px-2 py-1 rounded">
                             <button class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray" aria-label="Edit">
@@ -61,7 +61,7 @@
                                                     clip-rule="evenodd"
                                                   ></path>
                                                 </svg>
-                                              </button>
+                                </button>
                         </form>
                     </div>
                 </td>

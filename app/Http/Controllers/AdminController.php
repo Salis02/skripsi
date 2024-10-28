@@ -201,12 +201,12 @@ class AdminController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
-
+    
         $mahasiswa->update([
             'name' => $request->name,
             'nim' => $request->nim,
             'dosen_id' => $request->dosen_id,
-            'semesterId' => $request->semesterId,
+            'semester_id' => $request->semester_id, // Ganti semesterId dengan semester_id
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'Mahasiswa berhasil diperbaharui.');

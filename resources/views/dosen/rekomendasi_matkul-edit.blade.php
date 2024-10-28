@@ -2,20 +2,20 @@
 
 @section('container')
 <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Edit Rekomendasi Mata Kuliah</h1>
+    <h1 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Edit Rekomendasi Mata Kuliah</h1>
 
-    <form action="{{ route('rekomendasi_matkul.update', $rekomendasiMatkul->id) }}" method="POST">
+    <form action="{{ route('rekomendasi_matkul.update', $rekomendasiMatkul->id) }}" method="POST" class="px-4 py-3 mb-8 bg-gray-100 rounded-lg shadow-md dark:bg-gray-800">
         @csrf
         @method('PUT')
 
         <div class="mb-4">
-            <label for="type" class="block">Type:</label>
-            <input type="text" name="type" id="type" class="border rounded w-full py-2 px-3" value="{{ old('type', $rekomendasiMatkul->type) }}">
+            <label for="type" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Type:</label>
+            <input type="text" name="type" id="type" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" value="{{ old('type', $rekomendasiMatkul->type) }}">
         </div>
 
         <div class="mb-4">
-            <label for="matkul_id" class="block">Mata Kuliah:</label>
-            <select name="matkul_id" id="matkul_id" class="border rounded w-full py-2 px-3">
+            <label for="matkul_id" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Mata Kuliah:</label>
+            <select name="matkul_id" id="matkul_id" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                 @foreach($matkuls as $matkul)
                     <option value="{{ $matkul->id }}" {{ $matkul->id == $rekomendasiMatkul->matkul_id ? 'selected' : '' }}>{{ $matkul->namaMatkul }}</option>
                 @endforeach

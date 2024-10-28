@@ -28,8 +28,8 @@
             </div>
     
             <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="semesterId">Semester</label>
-                <select name="semesterId" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="semester_id">Semester</label>
+                <select name="semester_id" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
                     @foreach($semesters as $semester)
                         <option value="{{ $semester->id }}" {{ $semester->id == $mahasiswa->semester_id ? 'selected' : '' }}>{{ $semester->id }}</option>
                     @endforeach
