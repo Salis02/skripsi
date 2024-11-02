@@ -89,7 +89,7 @@
                                                 </svg>
                                             </button>
                                             </a>
-                                            <form action="{{ route('transkrip.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?');">
+                                            <form action="{{ route('transkrip.destroy', $item->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus transkrip ini?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <a class="btn btn-outline-danger" type="submit">

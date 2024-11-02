@@ -3,6 +3,15 @@
 @section('container')
 <div class="container mx-auto mt-4">
 
+    @if ($errors->any())
+        <div class="text-xs text-red-600">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">Create Mahasiswa</h2>
     <form action="/admin/mahasiswa" method="POST" class="px-4 py-3 mb-8 bg-gray-100 rounded-lg shadow-md dark:bg-gray-800">
         @csrf
@@ -12,7 +21,8 @@
         </div>
         <div class="mb-4">
             <label for="email" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Email:</label>
-            <input type="email" name="email" id="email" value="{{ old('email') }}" required class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+            <input type="email" name="email" id="email"  value="{{ old('email') }}" required class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" >
+
         </div>
         <div class="mb-4">
             <label for="password" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Password:</label>
@@ -56,14 +66,6 @@
     </form>
 </div>
 
-@if ($errors->any())
-    <div>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+
 
 @endsection

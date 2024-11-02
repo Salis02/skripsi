@@ -12,6 +12,17 @@
     <div class=" bg-white rounded-lg shadow-md p-10 w-[500px]">
         <img src="{{ asset('img/images.png') }}" alt="" class="mx-auto mb-3">
         <h1 class="text-3xl font-bold text-center text-[#499cbf] mb-8">LOGIN</h1>
+
+        @if ($errors->any())
+            <div class="mb-4 p-2 text-center bg-red-200 rounded-md text-red-500">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="mb-4">

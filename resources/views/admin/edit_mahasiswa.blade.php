@@ -19,7 +19,7 @@
         
             <div class="mb-4">
                 <label for="password" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Password</label>
-                <input type="password" name="password" id="password" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                <input type="password" name="password" id="password" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required>
             </div>
         
             <div class="mb-4">

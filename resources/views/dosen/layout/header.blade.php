@@ -133,6 +133,33 @@
                     <span class="ml-4">Paket Rekomendasi KRS</span>
                     </a>
                 </li>
+                <li class="relative px-6 py-3 {{ $active === 'inference' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
+                  <span
+                      class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'inference' ? '' : 'hidden' }}"
+                      aria-hidden="true"
+                  ></span>
+                  <a
+                      class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ $active === 'inference' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
+                      href="{{ route('inference_rule.index') }}"
+                  >
+                      <svg
+                          class="w-5 h-5"
+                          aria-hidden="true"
+                          fill="none"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                      >
+                          <path
+                              d="M12 8v4l3 3m-3-3H8m6 4h3a2 2 0 012 2v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3a2 2 0 012-2h3m6-8H8a2 2 0 00-2 2v1a2 2 0 002 2h6a2 2 0 002-2V6a2 2 0 00-2-2z"
+                          ></path>
+                      </svg>
+                      <span class="ml-4">Aturan Inferensi</span>
+                  </a>
+              </li>
+              
             </ul>
         </div>
         </aside>
@@ -254,6 +281,33 @@
                 <span class="ml-4">Paket Rekomendasi KRS</span>
                 </a>
             </li>
+            <li class="relative px-6 py-3 {{ $active === 'inference' ? 'bg-white dark:bg-gray-700 rounded-lg shadow-md' : '' }}">
+              <span
+                  class="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg {{ $active === 'inference' ? '' : 'hidden' }}"
+                  aria-hidden="true"
+              ></span>
+              <a
+                  class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 {{ $active === 'inference' ? 'text-purple-600 bg-purple-100 dark:bg-purple-800' : '' }}"
+                  href="{{ route('inference_rule.index') }}"
+              >
+                  <svg
+                      class="w-5 h-5"
+                      aria-hidden="true"
+                      fill="none"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                  >
+                      <path
+                          d="M12 8v4l3 3m-3-3H8m6 4h3a2 2 0 012 2v3a2 2 0 01-2 2H8a2 2 0 01-2-2v-3a2 2 0 012-2h3m6-8H8a2 2 0 00-2 2v1a2 2 0 002 2h6a2 2 0 002-2V6a2 2 0 00-2-2z"
+                      ></path>
+                  </svg>
+                  <span class="ml-4">Aturan Inferensi</span>
+              </a>
+          </li>
+          
         </div>
         </aside>
         <div class="flex flex-col flex-1 w-full">

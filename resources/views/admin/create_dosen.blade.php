@@ -11,16 +11,21 @@
                 Nama Dosen
             </label>
             <input type="text" name="name" id="name" required
-            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-            placeholder="" />
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" value="{{ old('name') }}" />
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="email">
                 Email Dosen
             </label>
             <input type="email" name="email" id="email" required
-            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
-            placeholder="" />
+            class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" @error('email') is-invalid @enderror" value="{{ old('email') }}" />
+
+            @error('email')
+            <span class="invalid-feedback" role="alert">
+                <p class="text-xs text-red-600">{{ $message }}</p>
+            </span>
+
+    @enderror
         </div>
         <div class="mb-4">
             <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="password">

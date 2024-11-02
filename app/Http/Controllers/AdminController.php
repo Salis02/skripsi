@@ -86,6 +86,14 @@ class AdminController extends Controller
 
     public function storeDosen(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8',
+        ], [
+            'email.unique' => 'Email ini sudah dipakai. Silakan gunakan email lain.',
+        ]);
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,

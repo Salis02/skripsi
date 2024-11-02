@@ -12,6 +12,7 @@ use App\Http\Controllers\TranskripController;
 use App\Http\Controllers\FuzzyRangeController;
 use App\Http\Controllers\FuzzyCalculationController;
 use App\Http\Controllers\RekomendasiMatkulController;
+use App\Http\Controllers\InferenceRuleController;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -71,6 +72,9 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
 
     //Kelola Paket Rekomendasi
     Route::resource('/dosen/rekomendasi_matkul', RekomendasiMatkulController::class);
+
+    //Kelola Rules
+    Route::resource('/dosen/inference_rule', InferenceRuleController::class);
 });
 
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
