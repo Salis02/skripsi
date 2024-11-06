@@ -52,8 +52,9 @@ class MahasiswaController extends Controller
             'active' => 'data',
             'mahasiswa' => $mahasiswa,
             'transkrip' => $transkrip,
-            'indeksPrestasi' => number_format($indeksPrestasi, 2), // Format dengan 2 angka di belakang koma
-            'totalSks' => $totalSks // Tampilkan total SKS
+            'indeksPrestasi' => number_format($indeksPrestasi, 2),
+            'totalSks' => $totalSks,
+            'totalNilaiSks' => $totalNilaiSks
         ]);
     }
 }

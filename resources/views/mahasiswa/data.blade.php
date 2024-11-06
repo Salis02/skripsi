@@ -17,43 +17,55 @@
             </div>
             <div class="mt-8">
               <h3 class="text-lg font-bold text-gray-800">Informasi Pribadi</h3>
-              <div class="mt-4 ">
-                <div class="flex items-center">
-                  <span class="text-gray-600 mr-4">Nama</span>
-                  <span class="text-gray-800">:</span>
-                  <span class="text-gray-800 ml-4">{{ $mahasiswa->name }}</span>
-                </div>
-                <div class="flex items-center mt-2">
-                    <span class="text-gray-600 mr-4">NIM</span>
-                    <span class="text-gray-800">:</span>
-                    <span class="text-gray-800 ml-4">{{ $mahasiswa->nim }}</span>
-                </div>
-                <div class="flex items-center mt-2">
-                    <span class="text-gray-600 mr-4">Tempat/Tanggal Lahir</span>
-                    <span class="text-gray-800">:</span>
-                    <span class="text-gray-800 ml-4">{{ $mahasiswa->tanggal_lahir }}</span>
-                </div>
-                <div class="flex items-center mt-2">
-                    <span class="text-gray-600 mr-4">Jenis Kelamin</span>
-                    <span class="text-gray-800">:</span>
-                    <span class="text-gray-800 ml-4">{{ $mahasiswa->jenis_kelamin }}</span>
-                </div>
-                <div class="flex items-center mt-2">
-                    <span class="text-gray-600 mr-4">Email</span>
-                    <span class="text-gray-800">:</ span>
-                        <span class="text-gray-800 ml-4">{{ $mahasiswa->user->email }}</span>
-                </div>
-                <div class="flex items-center mt-2">
-                        <span class="text-gray-600 mr-4">Dosen Pembimbing Akademik</span>
-                        <span class="text-gray-800">:</span>
-                        <span class="text-gray-800 ml-4">{{ $mahasiswa->dosen->name }}</span>
-                </div>
-                <div class="flex items-center mt-2">
-                        <span class="text-gray-600 mr-4">Indeks Prestasi</span>
-                        <span class="text-gray-800">:</span>
-                        <span class="text-gray-800 ml-4">{{ number_format($indeksPrestasi, 2) }}</span>
-                </div>
-              </div>
+              <table class="mt-2 min-w-full bg-white">
+                <tbody>
+                  <tr>
+                    <td>Nama</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->name }}</td>
+                  </tr>
+                  <tr>
+                    <td>NIM</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->nim }}</td>
+                  </tr>
+                  <tr>
+                    <td>Tanggal Lahir</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->tanggal_lahir }}</td>
+                  </tr>
+                  <tr>
+                    <td>Jenis Kelamin</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->jenis_kelamin }}</td>
+                  </tr>
+                  <tr>
+                    <td>Email</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->user->email }}</td>
+                  </tr>
+                  <tr>
+                    <td>Dosen Pembimbing</td>
+                    <td>:</td>
+                    <td>{{ $mahasiswa->dosen->name }}</td>
+                  </tr>
+                  <tr>
+                    <td>Indeks Prestasi</td>
+                    <td>:</td>
+                    <td>{{ number_format($indeksPrestasi, 2) }}</td>
+                  </tr>
+                  <tr>
+                    <td>Total SKS</td>
+                    <td>:</td>
+                    <td>{{ $totalSks }} SKS</td>
+                  </tr>
+                  <tr>
+                    <td>Total Nilai Akhir</td>
+                    <td>:</td>
+                    <td>{{ $totalNilaiSks }}</td>
+                  </tr>
+                </tbody>
+              </table>
               
             </div>
           </div>

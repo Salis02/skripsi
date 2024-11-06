@@ -250,7 +250,7 @@ class FuzzyCalculationController extends Controller
         // Step 4: Lakukan defuzzifikasi untuk mendapatkan hasil SKS tegas
         $recommended_sks = $this->defuzzification($inference_results);
 
-        dd($recommended_sks);
+        // dd($recommended_sks);
 
         // Step 5: Ambil rekomendasi mata kuliah berdasarkan semester berikutnya
         $rekomendasi_matkul = $this->getRekomendasiMatkulBySemester($semester_target);

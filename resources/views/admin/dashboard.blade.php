@@ -198,7 +198,7 @@
                         <th class="px-4 py-3" scope="col">Nama/NIM Mahasiswa</th>
                         <th class="px-4 py-3" scope="col">Email</th>
                         <th class="px-4 py-3" scope="col">Semester</th>
-                        <th class="px-4 py-3" scope="col">Tanggal Lahir</th>
+                        {{-- <th class="px-4 py-3" scope="col">Tanggal Lahir</th> --}}
                         <th class="px-4 py-3" scope="col">Jenis Kelamin</th>
                         <th class="px-4 py-3" scope="col">Dosen Pembimbing</th>
                         <th class="px-4 py-3" scope="col">Action</th>
@@ -223,7 +223,7 @@
                             </td>
                             <td class="px-4 py-3">{{ $mahasiswa->user->email }}</td>
                             <td class="px-4 py-3">{{ $mahasiswa->semester->semester }}</td>
-                            <td class="px-4 py-3">{{ \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y') }}</td>
+                            {{-- <td class="px-4 py-3">{{ \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y') }}</td> --}}
                             <td class="px-4 py-3">{{ $mahasiswa->jenis_kelamin }}</td>
                             <td class="px-4 py-3">{{ $mahasiswa->dosen->name }}</td>
                             <td class="px-4 py-3">
