@@ -13,6 +13,21 @@ class FuzzyCalculationController extends Controller
 {
     public function index()
     {
+
+        // Mengecek apakah tabel FuzzyRange memiliki data atau tidak
+        $fuzzyRangeExists = FuzzyRange::exists();
+        // Mengecek apakah terdapat data inference yang dibutuhkan (sesuaikan jika menggunakan tabel lain)
+        $inferenceExists = method_exists($this, 'inference'); // Sesuaikan pengecekan inference yang relevan
+
+        // Jika salah satu dari data fuzzy range atau inference tidak ada
+        if (!$fuzzyRangeExists || !$inferenceExists) {
+            return view('mahasiswa.menu', [
+                'title' => 'Menu Rekomendasi',
+                'active' => 'menu',
+                'message' => 'Maaf, saat ini fitur tidak tersedia.',
+            ]);
+        }
+        
         // Mengambil data mahasiswa yang terkait dengan user yang sedang login
         $mahasiswa = Auth::user()->mahasiswa;
 
@@ -174,7 +189,6 @@ class FuzzyCalculationController extends Controller
     public function fuzzifyVariableMatkulMengulang($input, $variabel)
     {
         // dd($input, $variabel);
-        // Ambil rentang dari tabel fuzzyRange berdasarkan variabel
         // Ambil data dari database untuk variabel tertentu
         $ranges = FuzzyRange::where('variabel', $variabel)->get();
 
@@ -289,6 +303,7 @@ class FuzzyCalculationController extends Controller
             'recommended_sks' => $recommended_sks,  // Hasil SKS dari fuzzy
             'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
             'paket_rekomendasi' => $paket_rekomendasi_json,
+            'semester_target' => $semester_target,
             'nilaiDiBawahC' => $nilaiDiBawahC,  // Tambahkan variabel nilaiDiBawahC
         ]);
     }
@@ -319,6 +334,7 @@ class FuzzyCalculationController extends Controller
     public function defuzzification($inference_results)
     {
         // dd($inference_results);
+
         $numerator = 0;  // Untuk menyimpan hasil perkalian α * Z
         $denominator = 0;  // Untuk menyimpan total α
 

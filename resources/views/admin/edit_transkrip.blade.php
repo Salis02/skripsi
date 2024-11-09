@@ -35,12 +35,7 @@
                         @endforeach
                     </select>
                 </div>
-
-                <div class="mb-4">
-                    <label for="nilai_akhir" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Nilai Akhir:</label>
-                    <input type="number" step="0.01" name="nilai_akhir" id="nilai_akhir" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" value="{{ $transkrip->nilai_akhir }}" readonly>
-                </div>
-
+                
                 <div class="mb-4">
                     <label for="nilai" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Nilai:</label>
                     <input type="text" name="nilai" id="nilai" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" value="{{ $transkrip->nilai }}">
@@ -48,6 +43,11 @@
                 <div class="mb-4">
                     <label for="bobot" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Bobot:</label>
                     <input type="number" step="0.01" name="bobot" id="bobot" value="{{ old('bobot', $transkrip->bobot ?? '') }}" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+                </div>
+
+                <div class="mb-4">
+                    <label for="nilai_akhir" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Nilai Akhir:</label>
+                    <input type="number" step="0.01" name="nilai_akhir" id="nilai_akhir" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" value="{{ $transkrip->nilai_akhir }}" readonly>
                 </div>
 
                 <button type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Update</button>

@@ -13,22 +13,24 @@ class TranskripController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('search'); // Ambil input pencarian
-
-        // Ambil transkrip dengan sorting berdasarkan nama mahasiswa
+        $mahasiswaId = $request->input('mahasiswa_id');
+        $search = $request->input('search');
+        
         $query = Transkrip::with(['matkul', 'mahasiswa'])
-                    ->orderBy(Mahasiswa::select('name')->whereColumn('mahasiswas.id', 'transkrip.mahasiswa_id'));
-
-        // Jika ada input pencarian, tambahkan kondisi where
-        if ($search) {
-            $query->whereHas('mahasiswa', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
-            });
-        }
-
+            ->when($mahasiswaId, function($query) use ($mahasiswaId) {
+                $query->where('mahasiswa_id', $mahasiswaId);
+            })
+            ->when($search, function($query) use ($search) {
+                $query->whereHas('mahasiswa', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy(Mahasiswa::select('name')->whereColumn('mahasiswas.id', 'transkrip.mahasiswa_id'));
+    
         $transkrip = $query->paginate(10);
-
-        return view('admin.transkrip', compact('transkrip', 'search'), [
+        $mahasiswas = Mahasiswa::all();
+    
+        return view('admin.transkrip', compact('transkrip', 'mahasiswas', 'search'), [
             'title' => 'Kelola Transkrip',
             'active' => 'Transkrip'
         ]);
@@ -61,6 +63,31 @@ class TranskripController extends Controller
         Transkrip::create($request->all());
         return redirect()->route('transkrip.index')->with('success', 'Transkrip berhasil ditambahkan');
     }
+
+    public function storeBatch(Request $request)
+    {
+        $request->validate([
+            'matkul_id.*' => 'required|exists:matkul,id',
+            'mahasiswa_id' => 'required|exists:mahasiswas,id',
+            'nilai.*' => 'required',
+            'bobot.*' => 'required|numeric',
+            'nilai_akhir.*' => 'required|numeric',
+        ]);
+
+        // Loop through each input set
+        for ($i = 0; $i < count($request->matkul_id); $i++) {
+            Transkrip::create([
+                'matkul_id' => $request->matkul_id[$i],
+                'mahasiswa_id' => $request->mahasiswa_id,
+                'nilai' => $request->nilai[$i],
+                'bobot' => $request->bobot[$i],
+                'nilai_akhir' => $request->nilai_akhir[$i],
+            ]);
+        }
+
+        return redirect()->route('transkrip.index')->with('success', 'Transkrip berhasil ditambahkan untuk 5 mata kuliah');
+    }
+
 
     public function edit(Transkrip $transkrip)
     {

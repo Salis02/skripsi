@@ -3,8 +3,8 @@
 @section('container')
 
 @if ($errors->any())
-<div>
-    <strong>Whoops!</strong> Ada beberapa masalah dengan input Anda.<br><br>
+<div class="bg-red-400 text-black">
+    <p>Ada beberapa masalah dengan input Anda</p>
     <ul>
         @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -42,7 +42,8 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="semesterId">Semester:</label>
-        <select name="semesterId" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+        <select name="semesterId" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required>
+            <option value="">--Pilih Semester--</option>
             @foreach($semesters as $semester)
                 <option value="{{ $semester->id }}">{{ $semester->semester }}</option>
             @endforeach
@@ -50,7 +51,8 @@
     </div>
     <div class="mb-4">
         <label class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2" for="typeId">Type Mata Kuliah:</label>
-        <select name="typeId" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input">
+        <select name="typeId" class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" required>
+            <option value="">--Pilih Tipe Matkul--</option>
             @foreach($types as $type)
                 <option value="{{ $type->id }}">
                     {{ $type->sifat }}

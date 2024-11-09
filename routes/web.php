@@ -56,6 +56,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     //Kelola Transkrip Nilai
     Route::resource('/admin/transkrip', TranskripController::class);
+    Route::post('/admin/transkrip/store-batch', [TranskripController::class, 'storeBatch'])->name('transkrip.storeBatch');
+
 
     
 

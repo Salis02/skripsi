@@ -3,82 +3,101 @@
 @section('container')
 <h1 class="text-2xl text-center font-bold mb-5">Silahkan isi data berikut</h1>
 <div class="bg-white rounded-lg shadow-lg p-10 w-full">
-    <div class="w-full container mx-2 my-2 bg-teal-500 rounded-md">
-        <form action="{{ route('calculate.fuzzification') }}" method="POST" class="py-2 px-2">
-            @csrf
-            <div class="grid grid-cols-2 gap-4">
-                <input type="hidden" id="ipk" name="ipk_sebelumnya" value="{{ $mahasiswa->name }}" {{ $mahasiswa->id == $mahasiswa->name ? 'selected' : '' }} class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
-                <div class="form-group">  
-                    <input type="hidden" name="semester" value="{{ $mahasiswa->semester_id }}">
-                    <label for="semester" class="block text-sm font-medium text-gray-700">Semester:</label>
-                    <span class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm">
-                        
-                        @foreach ($semesters as $semester)
-                            @if ($semester->id == $mahasiswa->semester_id)
-                                {{ $semester->semester }}
-                            @endif
-                        @endforeach
-                    </span>
+    <div class="w-full container mx-2 my-2 bg-blue-300 rounded-md">
+        @if (isset($message))
+            <p>{{ $message }}</p>
+        @else
+            <form action="{{ route('calculate.fuzzification') }}" method="POST" class="py-2 px-2">
+                @csrf
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="hidden" id="ipk" name="ipk_sebelumnya" value="{{ $mahasiswa->name }}" {{ $mahasiswa->id == $mahasiswa->name ? 'selected' : '' }} class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
+                    <div class="form-group">  
+                        <input type="hidden" name="semester" value="{{ $mahasiswa->semester_id }}">
+                        <label for="semester" class="block text-sm font-medium text-gray-700">Semester:</label>
+                        <span class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm">
+                            
+                            @foreach ($semesters as $semester)
+                                @if ($semester->id == $mahasiswa->semester_id)
+                                    {{ $semester->semester }}
+                                @endif
+                            @endforeach
+                        </span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="matkul_mengulang" class="block text-sm font-medium text-gray-700">Mata Mengulang:</label>
+                        <input type="number" min="0" id="matkul_mengulang" value="{{ old('matkul_mengulang') }}" name="matkul_mengulang" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ipk" class="block text-sm font-medium text-gray-700">IPK Semester Sebelumnya:</label>
+                        <input type="float" id="ipk" name="ipk_sebelumnya" value="{{ $indeksPrestasi }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="peminatan" class="block text-sm font-medium text-gray-700">Peminatan:</label>
+                        <select name="peminatan" id="peminatan" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <option value="Software Developer">Software Developer</option>
+                            <option value="Data Scientist">Data Scientist</option>
+                        </select>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="matkul_mengulang" class="block text-sm font-medium text-gray-700">Mata Mengulang:</label>
-                    <input type="number" min="0" id="matkul_mengulang" value="{{ old('matkul_mengulang') }}" name="matkul_mengulang" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                <div class="mt-6 text-center">
+                    <button type="submit" class="bg-blue-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Hitung</button>
                 </div>
-
-                <div class="form-group">
-                    <label for="ipk" class="block text-sm font-medium text-gray-700">IPK Semester Sebelumnya:</label>
-                    <input type="float" id="ipk" name="ipk_sebelumnya" value="{{ $indeksPrestasi }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
-                </div>
-
-                <div class="form-group">
-                    <label for="peminatan" class="block text-sm font-medium text-gray-700">Peminatan:</label>
-                    <select name="peminatan" id="peminatan" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                        <option value="Software Developer">Software Developer</option>
-                        <option value="Data Scientist">Data Scientist</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mt-6 text-center">
-                <button type="submit" class="bg-blue-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">Hitung</button>
-            </div>
-        </form>
+            </form>
+        @endif
     </div>
     <!-- Menampilkan hasil fuzzy jika sudah dihitung -->
     @if (isset($recommended_sks))
        <div class= "mx-2 my-2 w-full bg-blue-300 rounded-lg px-4 py-2">
-            <h2 class="text-xl text-left font-bold mb-4">Hasil Perhitungan Fuzzy :</h2>
-            <p class="text-lg">Rekomendasi SKS => <span class="bg-green-400 p-1 rounded-md"><b>{{ $recommended_sks }} SKS</b></span></p>
+            <div class="bg-gradient-to-r from-sky-50 to-blue-50 p-6 rounded-lg shadow-sm">
+                <div class="space-y-2">
+                  <h2 class="text-gray-700 font-medium text-xl">REKOMENDASI KRS SEMESTER DEPAN</h2>
+                  
+                  <div class="flex items-center gap-3">
+                    <div class="bg-teal-800 text-white px-4 py-2 rounded-lg font-bold text-xl">
+                        {{ $recommended_sks }} SKS
+                    </div>
+                    <span class="text-sm text-green-600 bg-green-100 px-3 py-1 rounded-full">
+                      untuk semester depan ({{ $semester_target }})
+                    </span>
+                  </div>
+                </div>
+              </div>
             <div class="mt-4">
+                @forelse($rekomendasi_matkul as $matkul)
                 <h4 class="text-lg">Paket Rekomendasi Mata Kuliah</h4>
-                <table class="min-w-full text-white bg-cyan-900 border border-gray-300">
-                    <thead class="text-left">
-                        <tr>
-                            <th class="py-2 px-4 border-b">Kode Matkul</th>
-                            <th class="py-2 px-4 border-b">Nama Matkul</th>
-                            <th class="py-2 px-4 border-b">Semester</th>
-                            <th class="py-2 px-4 border-b">Jumlah SKS</th>
-                            <th class="py-2 px-4 border-b">Sifat</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($rekomendasi_matkul as $matkul)
+                    <table class="min-w-full text-white bg-cyan-900 border border-gray-300">
+                        <thead class="text-left">
+                            <tr>
+                                <th class="py-2 px-4 border-b">Kode Matkul</th>
+                                <th class="py-2 px-4 border-b">Nama Matkul</th>
+                                <th class="py-2 px-4 border-b">Semester</th>
+                                <th class="py-2 px-4 border-b">Jumlah SKS</th>
+                                <th class="py-2 px-4 border-b">Sifat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             <tr>
                                 <td class="py-2 px-4 border-b">{{ $matkul->kodeMatkul }}</td>
                                 <td class="py-2 px-4 border-b">{{ $matkul->namaMatkul }}</td>
                                 <td class="py-2 px-4 border-b">{{ $matkul->semesterId }}</td>
                                 <td class="py-2 px-4 border-b">{{ $matkul->totalSks }}</td>
                                 <td class="py-2 px-4 border-b">{{ $matkul->sifat }}</td>
-                                
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3">Tidak ada rekomendasi mata kuliah untuk semester ini.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                    @empty
+                        <div class="bg-red-200 text-center text-lg rounded-xl p-3 flex flex-col items-center">
+                            <svg class="h-32 w-32 text-red-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <circle cx="11" cy="11" r="8" />  <line x1="21" y1="21" x2="16.65" y2="16.65" />  <line x1="11" y1="8" x2="11" y2="14" />  <line x1="8" y1="11" x2="14" y2="11" /></svg>
+                            <div class="mb-2">Tidak ada paket rekomendasi.</div>
+                            <a href="{{ route('data') }}" class="text-blue-500 hover:underline">
+                                Lihat Transkrip
+                            </a>
+                        </div>
+                @endforelse
             </div>
        </div>
     @endif
