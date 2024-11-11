@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     @vite('resources/css/app.css')
 </head>
-<body class="bg-[#1B75BB] flex items-center justify-center min-h-screen">
+<body class="bg-[#0a1c29] flex items-center justify-center min-h-screen">
     <div class=" bg-white rounded-lg shadow-md p-10 w-[500px]">
         <img src="{{ asset('img/images.png') }}" alt="" class="mx-auto mb-3">
         <div class=" text-center text-[#499cbf] mb-8">
