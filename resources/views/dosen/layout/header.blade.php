@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Dashboard Admin | {{ $title }}</title>
+        <title>Dosen | {{ $title }}</title>
         <link rel="icon" href="https://almaata.ac.id/wp-content/uploads/2017/05/logo-alma-ata.jpg">
         <link
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"

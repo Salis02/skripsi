@@ -27,7 +27,9 @@ class TranskripController extends Controller
             })
             ->orderBy(Mahasiswa::select('name')->whereColumn('mahasiswas.id', 'transkrip.mahasiswa_id'));
     
-        $transkrip = $query->paginate(10);
+        // $transkrip = $query->paginate(10);
+        // Menggunakan paginate dan menambahkan `appends` untuk query yang dipertahankan
+        $transkrip = $query->paginate(10)->appends($request->query());
         $mahasiswas = Mahasiswa::all();
     
         return view('admin.transkrip', compact('transkrip', 'mahasiswas', 'search'), [
@@ -114,9 +116,12 @@ class TranskripController extends Controller
         return redirect()->route('transkrip.index')->with('success', 'Transkrip berhasil diperbarui');
     }
 
-    public function destroy(Transkrip $transkrip)
+    public function destroy(Transkrip $transkrip, Request $request)
     {
+        $mahasiswaId = $transkrip->mahasiswa_id; // Menyimpan ID mahasiswa terkait
         $transkrip->delete();
-        return redirect()->route('transkrip.index')->with('success', 'Transkrip berhasil dihapus');
+        // Mengarahkan kembali ke halaman index dengan mempertahankan mahasiswa yang dipilih
+        return redirect()->route('transkrip.index', ['mahasiswa_id' => $mahasiswaId])
+            ->with('success', 'Transkrip berhasil dihapus');
     }
 }

@@ -80,7 +80,7 @@
           @endphp
 
           <div class="mt-2 bg-white rounded-lg shadow-md p-6">
-            <h1 class="text-center text-xl font-bold">Transkrip Nilai</h1>
+            <h1 class="text-center text-xl font-bold">TRANSKRIP NILAI</h1>
             @foreach($sortedSemesters as $semester)
                 <h3 class="mt-4 text-lg font-semibold">Semester {{ $semester }}</h3>
                 <table class="mt-2 min-w-full bg-white border border-gray-300">
@@ -88,9 +88,9 @@
                         <tr class="text-left">
                             <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
                             <th class="py-2 px-4 border-b">SKS</th>
-                            <th class="py-2 px-4 border-b">Nilai Akhir</th>
                             <th class="py-2 px-4 border-b">Nilai</th>
                             <th class="py-2 px-4 border-b">Bobot</th>
+                            <th class="py-2 px-4 border-b">Nilai Akhir</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,9 +98,9 @@
                             <tr>
                                 <td class="w-1/2 py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
                                 <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
-                                <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
                                 <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
                                 <td class="py-2 px-4 border-b">{{ $item->bobot }}</td>
+                                <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
                             </tr>
                         @endforeach
                     </tbody>

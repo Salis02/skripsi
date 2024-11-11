@@ -39,7 +39,7 @@ class FuzzyCalculationController extends Controller
 
         // Mengambil data mata kuliah dengan nilai di bawah C, termasuk informasi semester
         $nilaiDiBawahC = $mahasiswa->transkrip()
-        ->where('nilai_akhir', '<', 7.0)  // Asumsikan nilai di bawah C adalah kurang dari 2.0
+        ->where('nilai_akhir', '<', 5.0)  // Asumsikan nilai di bawah C adalah kurang dari 2.0
         ->with(['matkul' => function ($query) {
             $query->with('semester');  // Memuat relasi semester dari tabel matkul
         }])
@@ -286,7 +286,7 @@ class FuzzyCalculationController extends Controller
 
         // Mengambil data mata kuliah dengan nilai di bawah C, termasuk informasi semester
         $nilaiDiBawahC = $mahasiswa->transkrip()
-        ->where('nilai_akhir', '<', 7.0)  // Asumsikan nilai di bawah C adalah kurang dari 2.0
+        ->where('nilai_akhir', '<', 5.0)  // Asumsikan nilai di bawah C adalah kurang dari 2.0
         ->with(['matkul' => function ($query) {
             $query->with('semester');  // Memuat relasi semester dari tabel matkul
         }])

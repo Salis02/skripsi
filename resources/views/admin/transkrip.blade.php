@@ -28,7 +28,7 @@
             </div>
 
             <form action="{{ route('transkrip.index') }}" method="GET" class="flex justify-end">
-                <select name="mahasiswa_id" class="block w-full text-sm dark:border-gray-600 dark:bg-gray-700 form-select shadow-md" onchange="this.form.submit()">
+                <select name="mahasiswa_id" class="block w-full text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 form-select shadow-md" onchange="this.form.submit()">
                     <option value="">Pilih Mahasiswa</option>
                     @foreach($mahasiswas as $mahasiswa)
                         <option value="{{ $mahasiswa->id }}" {{ request('mahasiswa_id') == $mahasiswa->id ? 'selected' : '' }}>
@@ -90,7 +90,6 @@
                                             <td class="px-4 py-3">{{ $item->nilai }}</td>
                                             <td class="px-4 py-3">
                                                 <div class="flex justify-center text-sm">
-                                                    {{-- <a href="{{ route('transkrip.edit', $item->id) }}" class="text-blue-500">Edit</a> --}}
                                                     <a class="btn btn-outline-warning" href="{{ route('transkrip.edit', $item->id) }}">
                                                         <button
                                                         class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
@@ -136,16 +135,59 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
+                                <thead>
+                                    <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                                        <th class="px-4 py-3">No.</th>
+                                        <th class="px-4 py-3">Nama Mahasiswa</th>
+                                        <th class="px-4 py-3">Kode/Nama Mata Kuliah</th>
+                                        <th class="px-4 py-3">Semester</th>
+                                        <th class="px-4 py-3">SKS</th>
+                                        <th class="px-4 py-3">Nilai Akhir</th>
+                                        <th class="px-4 py-3">Bobot</th>
+                                        <th class="px-4 py-3">Nilai</th>
+                                        <th class="px-4 py-3">Aksi</th>
+                                    </tr>
+                                </thead>
                             </table>
-                    @endif        
-                </div>
-                
-            </div>
-            <div class="px-4 py-3">
-                {{ $transkrip->appends(request()->query())->links() }}
-            </div>            
-
-
+                        </div>
+                        
+                    </div>
+                    <div class="px-4 py-3">
+                        <ul class="flex flex-row justify-center items-center space-x-2 mb-4">
+                            <!-- Link ke halaman pertama -->
+                            @if ($transkrip->currentPage() > 3)
+                                <li class="page-item bg-gray-200 rounded-md px-4 py-2">
+                                    <a class="page-link" href="{{ $transkrip->url(1) }}">1</a>
+                                </li>
+                                <!-- Menambahkan ellipsis jika ada banyak halaman sebelum halaman aktif -->
+                                @if ($transkrip->currentPage() > 4)
+                                    <li class="page-item px-2">...</li>
+                                @endif
+                            @endif
+                        
+                            <!-- Menampilkan dua halaman sebelumnya, halaman saat ini, dan dua halaman setelahnya -->
+                            @for ($i = max(1, $transkrip->currentPage() - 2); $i <= min($transkrip->lastPage(), $transkrip->currentPage() + 2); $i++)
+                                <li class="page-item {{ $transkrip->currentPage() == $i ? 'bg-blue-500 text-white' : 'bg-gray-200' }} rounded-md px-4 py-2">
+                                    <a class="page-link" href="{{ $transkrip->url($i) }}">
+                                        {{ $i }}
+                                    </a>
+                                </li>
+                            @endfor
+                        
+                            <!-- Link ke halaman terakhir jika belum ditampilkan -->
+                            @if ($transkrip->currentPage() < $transkrip->lastPage() - 2)
+                                <!-- Menambahkan ellipsis jika ada banyak halaman setelah halaman aktif -->
+                                @if ($transkrip->currentPage() < $transkrip->lastPage() - 3)
+                                    <li class="page-item px-2">...</li>
+                                @endif
+                                <li class="page-item bg-gray-200 rounded-md px-4 py-2">
+                                    <a class="page-link" href="{{ $transkrip->url($transkrip->lastPage()) }}">{{ $transkrip->lastPage() }}</a>
+                                </li>
+                            @endif
+                        </ul>                        
+                        @endif        
+                        {{ $transkrip->appends(request()->query())->links() }}
+                    </div>            
         </div>
 
     </main>

@@ -32,9 +32,26 @@ class DosenController extends Controller
         // Mengambil transkrip yang sesuai dengan ID mahasiswa
         $transkrip = Transkrip::where('mahasiswa_id', $id)->with('matkul')->get();
 
-        return view('dosen.transkrip', compact('mahasiswa', 'transkrip'), [
+        $totalSks = 0;
+        $totalNilaiSks = 0;
+
+        // Loop untuk menghitung total SKS dan total nilai akhir * SKS
+        foreach ($transkrip as $item) {
+            $sks = $item->matkul->totalSks;
+            $nilaiAkhir = $item->nilai_akhir;
+
+            $totalSks += $sks;
+            $totalNilaiSks += $nilaiAkhir; // Perhatikan perkalian nilai akhir dengan SKS
+        }
+
+        // Menghitung IPK dengan menghindari pembagian dengan nol
+        $indeksPrestasi = $totalSks ? $totalNilaiSks / $totalSks : 0;
+
+        return view('dosen.transkrip', compact('mahasiswa', 'transkrip', 'indeksPrestasi'), [
             'title' => 'Transkrip ' . $mahasiswa->name,
-            'active' => 'Dashboard'
+            'active' => 'Dashboard',
+            'totalSks' => $totalSks,
+            'totalNilaiSks' => $totalNilaiSks
         ]);
     }
 }

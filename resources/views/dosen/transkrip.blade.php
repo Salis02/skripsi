@@ -7,7 +7,16 @@
         <b>{{ $mahasiswa->nim }}</b> - <b>{{ $mahasiswa->name }}</b></h3>
     <hr>
     @if($transkrip->isEmpty()) 
-        <h1 class="mt-4 text-center text-red-700"><b>Tidak ada data transkrip</b></h1> 
+    <div class="bg-red-100 mt-2 rounded-md flex flex-col items-center justify-center">
+        <svg class="h-20 w-20 text-red-600" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z"/>
+          <circle cx="10" cy="10" r="7" />
+          <line x1="8" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="8" x2="8" y2="12" />
+          <line x1="21" y1="21" x2="15" y2="15" />
+        </svg>
+        <h1 class="text-md text-red-700">Tidak ada data transkrip</h1>
+      </div>
     @else
     <table class="w-full table-auto whitespace-wrap text-xs">
         <thead>
@@ -31,7 +40,24 @@
                         <td class="px-4 py-3">{{ $item->nilai_akhir }}</td>
                     </tr>
                 @endforeach
-            @endif
         </tbody>
+    </table>
+    <table class="mt-4 w-full table-auto whitespace-wrap text-xs">
+        <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <td class="px-4 py-3">Total SKS</td>
+            <td class="px-4 py-3">:</td>
+            <td class="px-4 py-3">{{ $totalSks }}</td>
+        </tr>
+        <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <td class="px-4 py-3">Total Nilai SKS</td>
+            <td class="px-4 py-3">:</td>
+            <td class="px-4 py-3">{{ $totalNilaiSks }}</td>
+        </tr>
+        <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+            <td class="px-4 py-3">Jumlah IPK</td>
+            <td class="px-4 py-3">:</td>
+            <td class="px-4 py-3">{{ number_format($indeksPrestasi, 2) }}</td>
+        </tr>
+        @endif
     </table>
 @endsection

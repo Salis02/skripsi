@@ -63,7 +63,7 @@
                 <button type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Simpan</button>
             </form>
 
-            <form action="{{ route('transkrip.storeBatch') }}" method="POST" class="px-4 py-3 mb-8 bg-gray-100 rounded-lg shadow-md dark:bg-gray-800">
+            {{-- <form action="{{ route('transkrip.storeBatch') }}" method="POST" class="px-4 py-3 mb-8 bg-gray-100 rounded-lg shadow-md dark:bg-gray-700">
                 @csrf
                 <div class="mb-4">
                     <label for="mahasiswa_id" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Mahasiswa:</label>
@@ -75,7 +75,7 @@
                     </select>
                 </div>
                 
-                @for($i = 0; $i < 17; $i++)
+                @for($i = 0; $i < 35; $i++)
                     <div class="mb-4">
                         <label for="matkul_id_{{ $i }}" class="block text-gray-700 dark:text-gray-400 text-sm font-bold mb-2">Mata Kuliah {{ $i + 1 }}:</label>
                         <select name="matkul_id[]" id="matkul_id_{{ $i }}" class="block w-full mt-1 text-sm form-input" required>
@@ -106,7 +106,7 @@
                 @endfor
             
                 <button type="submit" class="px-4 py-2 text-sm font-medium leading-5 text-white bg-purple-600 rounded-lg">Simpan</button>
-            </form>
+            </form> --}}
             
 
             <script>
