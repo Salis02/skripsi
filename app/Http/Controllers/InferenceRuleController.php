@@ -9,8 +9,19 @@ class InferenceRuleController extends Controller
 {
     public function index()
     {
+        $user = auth()->user();
         $rules = InferenceRule::all();
-        return view('dosen.inference', compact('rules'),[
+        return view('admin.inference', compact('rules', 'user'),[
+            'title' => 'Inference',
+            'active' => 'inference'
+        ]);
+    }
+
+    public function showDosen()
+    {
+        $user = auth()->user();
+        $rules = InferenceRule::all();
+        return view('dosen.inference', compact('rules', 'user'), [
             'title' => 'Inference',
             'active' => 'inference'
         ]);
@@ -18,7 +29,8 @@ class InferenceRuleController extends Controller
 
     public function create()
     {
-        return view('dosen.inference-create', [
+        $user = auth()->user();
+        return view('admin.inference-create', compact('user'), [
             'title' => 'Inference',
             'active' => 'inference'
         ]);
@@ -40,7 +52,8 @@ class InferenceRuleController extends Controller
 
     public function edit(InferenceRule $inference_rule)
     {
-        return view('dosen.inference-edit', compact('inference_rule'), [
+        $user = auth()->user();
+        return view('admin.inference-edit', compact('inference_rule', 'user'), [
             'title' => 'Inference',
             'active' => 'inference'
         ]);

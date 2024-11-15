@@ -58,9 +58,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('/admin/transkrip', TranskripController::class);
     Route::post('/admin/transkrip/store-batch', [TranskripController::class, 'storeBatch'])->name('transkrip.storeBatch');
 
+    //Kelola Variabel Tetap Fuzzy
+    Route::resource('/admin/fuzzyRange', FuzzyRangeController::class);
 
-    
-
+    //Kelola Rules
+    Route::resource('/admin/inference_rule', InferenceRuleController::class);
 
 });
 
@@ -71,14 +73,12 @@ Route::middleware(['auth', 'role:dosen'])->group(function () {
         return redirect()->route('dosen.dashboard');
     });
 
-    //Kelola Variabel Tetap Fuzzy
-    Route::resource('/dosen/fuzzyRange', FuzzyRangeController::class);
+    Route::get('/dosen/fuzzyRange', [FuzzyRangeController::class, 'showDosen'])->name('fuzzyRange.dosen.index');
+    Route::get('/dosen/inference_rule', [InferenceRuleController::class, 'showDosen'])->name('inference_rule.dosen.index');
 
     //Kelola Paket Rekomendasi
     Route::resource('/dosen/rekomendasi_matkul', RekomendasiMatkulController::class);
 
-    //Kelola Rules
-    Route::resource('/dosen/inference_rule', InferenceRuleController::class);
 });
 
 Route::middleware(['auth', 'role:mahasiswa'])->group(function () {

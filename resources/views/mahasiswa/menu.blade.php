@@ -25,18 +25,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="matkul_mengulang" class="block text-sm font-medium text-gray-700">Mata Mengulang:</label>
+                        <label for="matkul_mengulang" class="block text-sm font-medium text-gray-700">Jumlah Mata Kuliah Mengulang:</label>
                         <input type="number" min="0" id="matkul_mengulang" value="{{ old('matkul_mengulang') }}" name="matkul_mengulang" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                     </div>
 
                     <div class="form-group">
                         <label for="ipk" class="block text-sm font-medium text-gray-700">IPK Semester Sebelumnya:</label>
-                        <input type="float" id="ipk" name="ipk_sebelumnya" value="{{ $indeksPrestasi }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >
+                        <input type="float" id="ipk" name="ipk_sebelumnya" value="{{ $indeksPrestasi }}" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" readonly>
                     </div>
 
                     <div class="form-group">
                         <label for="peminatan" class="block text-sm font-medium text-gray-700">Peminatan:</label>
                         <select name="peminatan" id="peminatan" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                            <option value="">-- Pilih Peminatan --</option>
                             <option value="Software Developer">Software Developer</option>
                             <option value="Data Scientist">Data Scientist</option>
                         </select>
@@ -167,7 +168,7 @@
 </div>
 <div class="mt-2 bg-white rounded-lg shadow-lg p-10 w-full">
     <!-- Cek apakah ada data mata kuliah dengan nilai di bawah C -->
-    @if ($nilaiDiBawahC->isEmpty())
+    @if ($nilaiGanjil->isEmpty() && $nilaiGenap->isEmpty())
     <div class="p-4 bg-green-200 rounded-lg">
         <svg class="mx-auto h-20 w-20 text-green-500"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round">  <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3" /></svg>
         <p class="text-center mt-2 text-green-900">Tidak ada mata kuliah dengan nilai di bawah C.</p>
@@ -175,32 +176,70 @@
     @else
     <div class="mx-2 py-2 bg-red-300 rounded-lg">
         <h1 class="text-xl text-center font-bold mb-5">Daftar Mata Kuliah yang Wajib Diambil</h1>
-            <table class="min-w-full bg-red-400 border border-gray-300">
-                <thead class="text-left">
+        @php
+            $i=1;
+        @endphp
+
+        <!-- Tabel Semester Ganjil -->
+        <h2 class="text-lg font-semibold m-2">Semester Ganjil</h2>
+        <table class="min-w-full bg-red-400 border border-gray-300 mb-4">
+            <thead class="text-left">
+                <tr>
+                    <th class="py-2 px-4 border-b">No.</th>
+                    <th class="py-2 px-4 border-b">Kode Mata Kuliah</th>
+                    <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
+                    <th class="py-2 px-4 border-b">SKS</th>
+                    <th class="py-2 px-4 border-b">Semester</th>
+                    <th class="py-2 px-4 border-b">Nilai Akhir</th>
+                    <th class="py-2 px-4 border-b">Nilai</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($nilaiGanjil as $item)
                     <tr>
-                        <th class="py-2 px-4 border-b">Kode Mata Kuliah</th>
-                        <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
-                        <th class="py-2 px-4 border-b">SKS</th>
-                        <th class="py-2 px-4 border-b">Semester</th>
-                        <th class="py-2 px-4 border-b">Nilai Akhir</th>
-                        <th class="py-2 px-4 border-b">Nilai</th>
+                        <td class="py-2 px-4 border-b">{{ $i++ }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->kodeMatkul }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->semester->semester }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($nilaiDiBawahC as $item)
-                        <tr>
-                            <td class="py-2 px-4 border-b">{{ $item->matkul->kodeMatkul }}</td>
-                            <td class="py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
-                            <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
-                            <td class="py-2 px-4 border-b">{{ $item->matkul->semester->semester }}</td>
-                            <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
-                            <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                @endforeach
+            </tbody>
+        </table>
+
+        <!-- Tabel Semester Genap -->
+        <h2 class="text-lg font-semibold m-2">Semester Genap</h2>
+        <table class="min-w-full bg-red-400 border border-gray-300">
+            <thead class="text-left">
+                <tr>
+                    <th class="py-2 px-4 border-b">No.</th>
+                    <th class="py-2 px-4 border-b">Kode Mata Kuliah</th>
+                    <th class="py-2 px-4 border-b">Nama Mata Kuliah</th>
+                    <th class="py-2 px-4 border-b">SKS</th>
+                    <th class="py-2 px-4 border-b">Semester</th>
+                    <th class="py-2 px-4 border-b">Nilai Akhir</th>
+                    <th class="py-2 px-4 border-b">Nilai</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($nilaiGenap as $item)
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ $i++ }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->kodeMatkul }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->namaMatkul }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->totalSks }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->matkul->semester->semester }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->nilai_akhir }}</td>
+                        <td class="py-2 px-4 border-b">{{ $item->nilai }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
     @endif
+
 </div>
 
 

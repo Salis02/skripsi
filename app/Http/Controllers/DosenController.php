@@ -12,13 +12,14 @@ class DosenController extends Controller
     public function index()
     {
         // Mendapatkan dosen yang sedang login
+        $user = auth()->user();
         $dosenId = Auth::user()->dosen->id;
 
         // Mengambil mahasiswa yang berelasi dengan dosen yang sedang login
         $mahasiswas = Mahasiswa::with(['user', 'dosen']) // Eager load relasi user dan dosen
         ->where('dosen_id', $dosenId) // Filter berdasarkan dosen yang sedang login
         ->get();
-        return view('dosen.dashboard', compact('mahasiswas', 'dosenId') ,[
+        return view('dosen.dashboard', compact('mahasiswas','user', 'dosenId') ,[
             'title' => 'Dashboard',
             'active' => 'Dashboard'
         ]);
@@ -28,6 +29,7 @@ class DosenController extends Controller
     {
         // Mengambil mahasiswa berdasarkan ID
         $mahasiswa = Mahasiswa::with(['user', 'dosen'])->findOrFail($id);
+        $user = auth()->user();
 
         // Mengambil transkrip yang sesuai dengan ID mahasiswa
         $transkrip = Transkrip::where('mahasiswa_id', $id)->with('matkul')->get();
@@ -47,7 +49,7 @@ class DosenController extends Controller
         // Menghitung IPK dengan menghindari pembagian dengan nol
         $indeksPrestasi = $totalSks ? $totalNilaiSks / $totalSks : 0;
 
-        return view('dosen.transkrip', compact('mahasiswa', 'transkrip', 'indeksPrestasi'), [
+        return view('dosen.transkrip', compact('mahasiswa', 'transkrip', 'user', 'indeksPrestasi'), [
             'title' => 'Transkrip ' . $mahasiswa->name,
             'active' => 'Dashboard',
             'totalSks' => $totalSks,

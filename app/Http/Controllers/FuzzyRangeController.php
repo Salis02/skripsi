@@ -12,19 +12,32 @@ class FuzzyRangeController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $fuzzyRanges = FuzzyRange::all();
-        return view('dosen.fuzzyRange', compact('fuzzyRanges'), [
+        return view('admin.fuzzyRange', compact('fuzzyRanges','user'), [
             'title' => 'Rentan Fuzzy',
             'active' => 'rentanFuzzy'
         ]);
     }
+
+    public function showDosen()
+    {
+        $user = auth()->user();
+        $fuzzyRanges = FuzzyRange::all();
+        return view('dosen.fuzzyRange', compact('fuzzyRanges', 'user'), [
+            'title' => 'Rentan Fuzzy',
+            'active' => 'rentanFuzzy'
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('dosen.fuzzyRange-create',  [
+        $user = auth()->user();
+        return view('admin.fuzzyRange-create', compact('user'),  [
             'title' => 'Rentan Fuzzy',
             'active' => 'rentanFuzzy'
         ]);
@@ -53,7 +66,8 @@ class FuzzyRangeController extends Controller
      */
     public function edit(FuzzyRange $fuzzyRange)
     {
-        return view('dosen.fuzzyRange-edit', compact('fuzzyRange'),  [
+        $user = auth()->user();
+        return view('admin.fuzzyRange-edit', compact('fuzzyRange', 'user'),  [
             'title' => 'Rentan Fuzzy',
             'active' => 'rentanFuzzy'
         ]);

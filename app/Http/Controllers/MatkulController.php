@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Matkul;
+use App\Models\User;
 use App\Models\Semester;
 use App\Models\TypeMatkul;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ class MatkulController extends Controller
 {
     public function index(Request $request) {
 
+        $user = auth()->user();
         $search = $request->get('search');
         $semesterId = $request->get('semesterId');
 
@@ -45,16 +47,17 @@ class MatkulController extends Controller
 
         $semesters = Semester::all();  // Ambil data semua semester untuk form select
 
-        return view('admin.matkul', compact('matkuls' , 'groupedMatkuls', 'semesters', 'totalSks'), [
+        return view('admin.matkul', compact('matkuls', 'user', 'groupedMatkuls', 'semesters', 'totalSks'), [
             'title' => 'Kelola Matkul',
             'active' => 'Matkul'
         ]);
     }
 
     public function create() {
+        $user = auth()->user();
         $semesters = Semester::all();
         $types = TypeMatkul::all();
-        return view('admin.create_matkul', compact('semesters', 'types'), [
+        return view('admin.create_matkul', compact('user','semesters', 'types'), [
             'title' => 'Kelola Matkul',
             'active' => 'Matkul'
         ]);
@@ -82,9 +85,10 @@ class MatkulController extends Controller
 
     public function edit(Matkul $matkul)
     {
+        $user = auth()->user();
         $semesters = Semester::all();
         $types = TypeMatkul::all();
-        return view('admin.edit_matkul', compact('matkul', 'semesters', 'types'), [
+        return view('admin.edit_matkul', compact('matkul','user', 'semesters', 'types'), [
             'title' => 'Kelola Matkul',
             'active' => 'Matkul'
         ]);

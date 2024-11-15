@@ -45,6 +45,15 @@ class FuzzyCalculationController extends Controller
         }])
         ->get();
 
+        // Pisahkan berdasarkan ganjil dan genap
+        $nilaiGanjil = $nilaiDiBawahC->filter(function ($item) {
+            return $item->matkul->semester->semester % 2 != 0;  // Semester ganjil
+        });
+
+        $nilaiGenap = $nilaiDiBawahC->filter(function ($item) {
+            return $item->matkul->semester->semester % 2 == 0;  // Semester genap
+        });
+
 
 
         return view('mahasiswa.menu', [
@@ -53,7 +62,8 @@ class FuzzyCalculationController extends Controller
             'mahasiswa' => $mahasiswa,
             'semesters' => $semesters,
             'indeksPrestasi' => $indeksPrestasi,
-            'nilaiDiBawahC' => $nilaiDiBawahC,
+            'nilaiGanjil' => $nilaiGanjil,
+            'nilaiGenap' => $nilaiGenap,
         ]);
     }
 
@@ -268,13 +278,15 @@ class FuzzyCalculationController extends Controller
 
         // Step 5: Ambil rekomendasi mata kuliah berdasarkan semester berikutnya
         $rekomendasi_matkul = $this->getRekomendasiMatkulBySemester($semester_target);
+
+        // dd($rekomendasi_matkul);
         
         // Simpan paket rekomendasi sebagai JSON
         $paket_rekomendasi_json = json_encode($rekomendasi_matkul);
        
 
         // Step 6: Simpan hasil ke dalam tabel inputfuzzy
-        InputFuzzy::create([
+        $inputFuzzy = InputFuzzy::create([
             'mahasiswa_id' => $mahasiswa->id,
             'semester_id' => $semester_id,
             'ipk_sebelumnya' => $ipk,
@@ -284,6 +296,17 @@ class FuzzyCalculationController extends Controller
             'paket_rekomendasi' => $paket_rekomendasi_json,
         ]);
 
+        // dd($inputFuzzy);
+
+        // Step 7: Simpan data rekomendasi mata kuliah ke tabel rekomendasi_matkul
+        foreach ($rekomendasi_matkul as $matkul) {
+            RekomendasiMatkul::create([
+                'type' => $peminatan,  // Anda bisa mengatur tipe sesuai kebutuhan
+                'matkul_id' => $matkul->id, // ID mata kuliah yang direkomendasikan
+                'inputfuzzy_id' => $inputFuzzy->id,  // Menyimpan relasi ke InputFuzzy yang baru
+            ]);
+        }
+
         // Mengambil data mata kuliah dengan nilai di bawah C, termasuk informasi semester
         $nilaiDiBawahC = $mahasiswa->transkrip()
         ->where('nilai_akhir', '<', 5.0)  // Asumsikan nilai di bawah C adalah kurang dari 2.0
@@ -291,6 +314,16 @@ class FuzzyCalculationController extends Controller
             $query->with('semester');  // Memuat relasi semester dari tabel matkul
         }])
         ->get();
+
+        // Pisahkan berdasarkan ganjil dan genap
+        $nilaiGanjil = $nilaiDiBawahC->filter(function ($item) {
+            return $item->matkul->semester->semester % 2 != 0;  // Semester ganjil
+        });
+
+        $nilaiGenap = $nilaiDiBawahC->filter(function ($item) {
+            return $item->matkul->semester->semester % 2 == 0;  // Semester genap
+        });
+
 
 
         // Step 7: Kembalikan hasil perhitungan fuzzy ke view
@@ -304,7 +337,8 @@ class FuzzyCalculationController extends Controller
             'rekomendasi_matkul' => $rekomendasi_matkul, // Tambahkan data rekomendasi mata kuliah
             'paket_rekomendasi' => $paket_rekomendasi_json,
             'semester_target' => $semester_target,
-            'nilaiDiBawahC' => $nilaiDiBawahC,  // Tambahkan variabel nilaiDiBawahC
+            'nilaiGanjil' => $nilaiGanjil,
+            'nilaiGenap' => $nilaiGenap,
         ]);
     }
 
@@ -370,14 +404,15 @@ class FuzzyCalculationController extends Controller
 
     public function getRekomendasiMatkulBySemester($semester_target)
     {
+        // Mendapatkan rekomendasi matkul berdasarkan semester target dan hanya matkul ber-type 'wajib'
         $rekomendasi = \DB::table('matkul')
-            ->join('typematkul', 'matkul.typeid', '=', 'typematkul.id') // Ganti 'type_matkul_id' dengan nama kolom foreign key yang sesuai
-            ->select('matkul.*', 'typematkul.sifat') // Pilih semua kolom dari matkul dan kolom sifat dari typematkul
-            ->where('matkul.semesterId', $semester_target)
-            ->get();
+        ->join('typematkul', 'matkul.typeid', '=', 'typematkul.id')
+        ->select('matkul.*', 'typematkul.sifat')
+        ->where('typematkul.sifat', 'wajib') // Hanya matkul yang memiliki sifat 'wajib'
+        ->where('matkul.semesterId', $semester_target)
+        ->get();
 
         return $rekomendasi;
-
     }
 
 

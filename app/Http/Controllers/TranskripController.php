@@ -13,6 +13,7 @@ class TranskripController extends Controller
 {
     public function index(Request $request)
     {
+        $user = auth()->user();
         $mahasiswaId = $request->input('mahasiswa_id');
         $search = $request->input('search');
         
@@ -32,7 +33,7 @@ class TranskripController extends Controller
         $transkrip = $query->paginate(10)->appends($request->query());
         $mahasiswas = Mahasiswa::all();
     
-        return view('admin.transkrip', compact('transkrip', 'mahasiswas', 'search'), [
+        return view('admin.transkrip', compact('transkrip','user', 'mahasiswas', 'search'), [
             'title' => 'Kelola Transkrip',
             'active' => 'Transkrip'
         ]);
@@ -40,11 +41,12 @@ class TranskripController extends Controller
 
     public function create(Request $request)
     {
+        $user = auth()->user();
         $mahasiswas = Mahasiswa::all();
         $semesters = Semester::all();
         $matkuls = Matkul::all();
 
-        return view('admin.create_transkrip', compact('mahasiswas', 'matkuls', 'semesters'), [
+        return view('admin.create_transkrip', compact('mahasiswas', 'matkuls', 'semesters', 'user'), [
             'title' => 'Kelola Transkrip',
             'active' => 'Transkrip'
         ]);
@@ -93,10 +95,10 @@ class TranskripController extends Controller
 
     public function edit(Transkrip $transkrip)
     {
-
+        $user = auth()->user();
         $matkuls = Matkul::all();
         $mahasiswas = Mahasiswa::all();
-        return view('admin.edit_transkrip', compact('transkrip', 'matkuls', 'mahasiswas'), [
+        return view('admin.edit_transkrip', compact('transkrip','user', 'matkuls', 'mahasiswas'), [
             'title' => 'Kelola Transkrip',
             'active' => 'Transkrip'
         ]);

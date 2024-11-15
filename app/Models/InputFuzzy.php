@@ -31,5 +31,11 @@ class InputFuzzy extends Model
     {
         return $this->belongsTo(Mahasiswa::class, 'mahasiswa_id');
     }
+
+    // Relasi one-to-one dengan RekomendasiMatkul
+    public function rekomendasiMatkul()
+    {
+        return $this->hasOne(RekomendasiMatkul::class, 'inputfuzzy_id');  // Sesuaikan dengan foreign key
+    }
 }
 

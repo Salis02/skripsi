@@ -11,7 +11,10 @@
             <thead>
                 <tr class="mt-2 text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-2">ID</th>
-                    <th class="px-4 py-2">Type</th>
+                    <th class="px-4 py-2">Nama Mahasiswa</th>
+                    <th class="px-4 py-2">Peminatan</th>
+                    <th class="px-4 py-2">Hasil Defuzifikasi</th>
+                    <th class="px-4 py-2">Peminatan</th>
                     <th class="px-4 py-2">Semester</th>
                     <th class="px-4 py-2">Mata Kuliah</th>
                     <th class="px-4 py-2">Aksi</th>
@@ -24,7 +27,9 @@
                 @foreach($rekomendasiMatkuls as $rekomendasi)
                     <tr class="text-gray-700 dark:text-gray-400">
                         <td class=" px-4 py-2">{{ $i++ }}</td>
+                        <td class=" px-4 py-2">{{ $rekomendasi->inputfuzzy->mahasiswa->name }}</td>
                         <td class=" px-4 py-2">{{ $rekomendasi->type }}</td>
+                        <td class=" px-4 py-2">{{ $rekomendasi->inputfuzzy->hasil_defuzzifikasi }}</td>
                         <td class=" px-4 py-2">{{ $rekomendasi->matkul->semesterId }}</td>
                         <td class=" px-4 py-2">{{ $rekomendasi->matkul->namaMatkul }}</td>
                         <td class=" px-4 py-2">
@@ -48,6 +53,52 @@
                                 </form>
                             </div>
                         </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4 w-full overflow-x-auto shadow-md">
+        <table class="w-full table-auto whitespace-wrap text-sm">
+            <thead>
+                <tr class="mt-2 text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                    <th class="px-4 py-2">Nama Mahasiswa</th>
+                    <th class="px-4 py-2">IPK</th>
+                    <th class="px-4 py-2">Peminatan</th>
+                    <th class="px-4 py-2">Hasil Defuzzifikasi</th>
+                    <th class="px-4 py-2">Mata Kuliah yang Direkomendasikan</th>
+                </tr>
+            </thead> 
+            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                @foreach($mahasiswas as $mahasiswa)
+                    <tr class="text-gray-700 dark:text-gray-400">
+                        <td class="px-4 py-2">{{ $mahasiswa->user->name }}</td>
+                        
+                        @php
+                            // Ambil inputFuzzy terbaru berdasarkan created_at
+                            $inputFuzzy = $mahasiswa->inputFuzzy->sortByDesc('created_at')->first();
+                        @endphp
+        
+                        @if($inputFuzzy)
+                            <td class="px-4 py-2">{{ $inputFuzzy->ipk_sebelumnya ?? 'Tidak ada data' }}</td>
+                            <td class="px-4 py-2">{{ $inputFuzzy->peminatan ?? 'Tidak ada data' }}</td>
+                            <td class="px-4 py-2">{{ $inputFuzzy->hasil_defuzzifikasi ?? 'Tidak ada data' }}</td>
+        
+                            <td class="px-4 py-2">
+                                @if(!$inputFuzzy->rekomendasiMatkul > 0)
+                                    <ul>
+                                        @foreach($inputFuzzy->rekomendasiMatkul as $rekomendasi)
+                                            <li>{{ $rekomendasi->matkul->nama ?? 'Mata kuliah tidak ditemukan' }}</li>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <p>Tidak ada mata kuliah yang direkomendasikan.</p>
+                                @endif
+                            </td>
+                            
+                        @else
+                            <td colspan="4">Data input fuzzy tidak ditemukan</td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

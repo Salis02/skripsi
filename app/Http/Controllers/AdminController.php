@@ -41,6 +41,7 @@ class AdminController extends Controller
 
     public function createAdmin()
     {
+
         return view('admin.create_admin', [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
@@ -78,7 +79,8 @@ class AdminController extends Controller
 
     public function createDosen()
     {
-        return view('admin.create_dosen', [
+        $user = auth()->user();
+        return view('admin.create_dosen', compact('user'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
         ]);
@@ -111,7 +113,8 @@ class AdminController extends Controller
 
     public function editDosen(Dosen $dosen)
     {
-        return view('admin.edit_dosen', compact('dosen'), [
+        $user = auth()->user();
+        return view('admin.edit_dosen', compact('dosen','user'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
         ]);
@@ -136,14 +139,15 @@ class AdminController extends Controller
     {
         $dosen->user->delete();
         $dosen->delete();
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.dashboard')->with('success', 'Dosen berhasil dihapus.');
     }
 
     public function createMahasiswa()
     {
+        $user = auth()->user();
         $dosens = Dosen::all();
         $semesters = Semester::all();
-        return view('admin.create_mahasiswa', compact('dosens', 'semesters'), [
+        return view('admin.create_mahasiswa', compact('dosens','user', 'semesters'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
         ]);
@@ -195,8 +199,9 @@ class AdminController extends Controller
     public function editMahasiswa(Mahasiswa $mahasiswa)
     {
         $dosens = Dosen::all();
+        $user = auth()->user();
         $semesters = Semester::all();
-        return view('admin.edit_mahasiswa', compact('mahasiswa', 'dosens', 'semesters'), [
+        return view('admin.edit_mahasiswa', compact('mahasiswa','user', 'dosens', 'semesters'), [
             'title' => 'Kelola User',
             'active' => 'Dashboard'
         ]);
