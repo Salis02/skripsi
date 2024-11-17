@@ -1,4 +1,4 @@
-@extends('dosen.layout.header')
+@extends('admin.layout.header')
 
 @section('container')
 <div class="container">

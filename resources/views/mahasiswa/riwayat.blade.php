@@ -47,7 +47,7 @@
                         <td class="py-2 px-4 border-b">{{ $riwayat->matkul_mengulang }}</td>
                         <td class="py-2 px-4 border-b">{{ $riwayat->peminatan }}</td>
                         <td class="py-2 px-4 border-b">{{ $riwayat->hasil_defuzzifikasi }}</td>
-                        <td class="py-2 px-4 border-b">
+                        {{-- <td class="py-2 px-4 border-b">
                             @if ($riwayat->paket_rekomendasi)
                             @php
                                 $paket_rekomendasi = json_decode($riwayat->paket_rekomendasi);
@@ -60,7 +60,12 @@
                         @else
                             Tidak ada paket rekomendasi
                         @endif
-                        </td>
+                        </td> --}}
+                        <td class="py-2 px-4 border-b">
+                            <a href="{{ route('rekomendasi.matkul', $riwayat->id) }}" class="text-blue-500 hover:underline">
+                                Lihat Paket Rekomendasi
+                            </a>
+                        </td>                        
                         <td class="py-2 px-4 border-b">
                             <form action="{{ route('riwayat.hapus', $riwayat->id) }}" method="POST">
                                 @csrf

@@ -6,7 +6,7 @@
     </h1>
     {{-- <p>{{ $dosenId->name }}</p> --}}
     <div class="w-full overflow-x-auto shadow-md">
-        <table class="w-full table-auto whitespace-wrap text-xs">
+        <table class="w-full table-auto whitespace-wrap text-md">
             <thead>
                 <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3" scope="col">No.</th>

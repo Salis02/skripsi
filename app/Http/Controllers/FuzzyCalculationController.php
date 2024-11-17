@@ -416,6 +416,24 @@ class FuzzyCalculationController extends Controller
     }
 
 
+    //Melihat rekomendasi matkul
+    public function rekomendasiMatkul($inputFuzzyId)
+    {
+        $mahasiswa = Auth::user()->mahasiswa;
+        $rekomendasiMatkul = RekomendasiMatkul::with('matkul')
+            ->where('inputfuzzy_id', $inputFuzzyId)
+            ->get();
+        
+        // dd($rekomendasiMatkul);
+
+        return view('mahasiswa.rekomendasi_matkul', [
+            'title' => 'Riwayat Rekomendasi',
+            'active' => 'riwayat',
+            'rekomendasiMatkul' => $rekomendasiMatkul,
+            'mahasiswa' => $mahasiswa
+        ]);
+    }
+
 
     //Method Riwayat Rekomendasi
     public function riwayat()

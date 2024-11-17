@@ -18,7 +18,7 @@
         <h1 class="text-md text-red-700">Tidak ada data transkrip</h1>
       </div>
     @else
-    <table class="w-full table-auto whitespace-wrap text-xs">
+    <table class="w-full table-auto whitespace-wrap text-md">
         <thead>
             <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <th class="px-4 py-3" scope="col">Mata Kuliah</th>
@@ -42,7 +42,7 @@
                 @endforeach
         </tbody>
     </table>
-    <table class="mt-4 w-full table-auto whitespace-wrap text-xs">
+    <table class="mt-4 w-full table-auto whitespace-wrap text-md">
         <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <td class="px-4 py-3">Total SKS</td>
             <td class="px-4 py-3">:</td>

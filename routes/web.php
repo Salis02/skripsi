@@ -97,6 +97,9 @@ Route::middleware(['auth', 'role:mahasiswa'])->group(function () {
     Route::get('/mahasiswa/riwayat', [FuzzyCalculationController::class, 'riwayat'])->name('riwayat');
     Route::delete('/mahasiswa/riwayat/{id}', [FuzzyCalculationController::class, 'hapusRiwayat'])->name('riwayat.hapus');
 
+    Route::get('/mahasiswa/rekomendasi/{inputFuzzyId}', [FuzzyCalculationController::class, 'rekomendasiMatkul'])->name('rekomendasi.matkul');
+
+
 });
 
 Route::get('/', function () {

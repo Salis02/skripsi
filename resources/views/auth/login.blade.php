@@ -27,7 +27,7 @@
                 @csrf
                 <div class="mb-4">
                     <label class="block text-[#499cbf] mb-2">Email</label>
-                    <input class="w-full p-3 rounded-md bg-[#e1f2f7] border border-[#e1f2f7] focus:outline-none focus:ring-2 focus:ring-[#499cbf]" type="email" name="email" required autofocus>
+                    <input class="w-full p-3 rounded-md bg-[#e1f2f7] border border-[#e1f2f7] focus:outline-none focus:ring-2 focus:ring-[#499cbf]" type="email" name="email" value="{{ old('email') }}" required autofocus>
                 </div>
                 <div class="mb-4">
                     <label class="block text-[#499cbf] mb-2">Password</label>

@@ -11,7 +11,7 @@
         </div>
     @endif
     <div class="mt-4 w-full overflow-x-auto shadow-md">
-        <table class="w-full table-auto whitespace-wrap text-sm">
+        <table class="w-full table-auto whitespace-wrap text-md">
             <thead>
                 <tr class="text-l font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-2">No.</th>

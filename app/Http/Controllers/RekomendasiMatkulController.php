@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class RekomendasiMatkulController extends Controller
 {
-    public function index()
+    public function index( Request $request)
     {
         $user = auth()->user();
         $dosenId = $user->dosen->id;
@@ -19,10 +19,21 @@ class RekomendasiMatkulController extends Controller
         ->where('dosen_id', $dosenId) // Filter berdasarkan dosen yang sedang login
         ->get();
 
-        $rekomendasiMatkuls = RekomendasiMatkul::with('matkul', 'inputfuzzy')->get();
+        // $rekomendasiMatkuls = RekomendasiMatkul::with('matkul', 'inputfuzzy')->get();
+
+        // Memfilter rekomendasi berdasarkan mahasiswa yang dipilih
+        $rekomendasiMatkuls = [];
+        if ($request->filled('mahasiswa_id')) {
+            $rekomendasiMatkuls = RekomendasiMatkul::with(['matkul', 'inputFuzzy'])
+                ->whereHas('inputFuzzy', function ($query) use ($request) {
+                    $query->where('mahasiswa_id', $request->mahasiswa_id);
+                })
+                ->get();
+        }
         return view('dosen.rekomendasi_matkul', compact('rekomendasiMatkuls', 'user', 'mahasiswas'), [
             'title' => 'Paket Rekomendasi',
-            'active' => 'rekomendasi'
+            'active' => 'rekomendasi',
+            'selectedMahasiswa' => $request->mahasiswa_id ?? null
         ]);
     }
 
@@ -58,6 +69,18 @@ class RekomendasiMatkulController extends Controller
         ]);
     }
 
+    // public function update(Request $request, RekomendasiMatkul $rekomendasiMatkul)
+    // {
+    //     $request->validate([
+    //         'type' => 'required',
+    //         'matkul_id' => 'required|exists:matkul,id',
+    //     ]);
+
+    //     $rekomendasiMatkul->update($request->all());
+
+    //     return redirect()->route('rekomendasi_matkul.index')->with('success', 'Rekomendasi Mata Kuliah berhasil diperbarui.');
+    // }
+
     public function update(Request $request, RekomendasiMatkul $rekomendasiMatkul)
     {
         $request->validate([
@@ -67,12 +90,20 @@ class RekomendasiMatkulController extends Controller
 
         $rekomendasiMatkul->update($request->all());
 
-        return redirect()->route('rekomendasi_matkul.index')->with('success', 'Rekomendasi Mata Kuliah berhasil diperbarui.');
+        // Redirect ke index dengan mahasiswa_id
+        return redirect()->route('rekomendasi_matkul.index', [
+            'mahasiswa_id' => $rekomendasiMatkul->inputFuzzy->mahasiswa_id
+        ])->with('success', 'Rekomendasi Mata Kuliah berhasil diperbarui.');
     }
+
 
     public function destroy(RekomendasiMatkul $rekomendasiMatkul)
     {
+        // Simpan mahasiswa_id sebelum menghapus
+        $mahasiswaId = $rekomendasiMatkul->inputFuzzy->mahasiswa_id;
+
+        // Redirect ke index dengan mahasiswa_id yang dipilih
         $rekomendasiMatkul->delete();
-        return redirect()->route('rekomendasi_matkul.index')->with('success', 'Rekomendasi Mata Kuliah berhasil dihapus.');
+        return redirect()->route('rekomendasi_matkul.index', ['mahasiswa_id' => $mahasiswaId])->with('success', 'Rekomendasi Mata Kuliah berhasil dihapus.');
     }
 }
